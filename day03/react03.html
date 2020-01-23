@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+
+        //  function Count(){
+    //      const [count, setCount] =  React.useState(0)
+
+    //      const add = () => setCount(count+1)
+
+    //     return (
+    //         <div>
+    //             <p>这个数字在增加 {count}</p>
+    //             {/* onClick 这个函数跟之前类的函数？ */}
+    //             <button onClick={add}>click me</button>
+    //         </div>
+    //     )
+    //  } 
+
+    //  ReactDOM.render(<Count />,document.getElementById('app'))
+
+
+    class Count extends React.Component{
+        state = {
+            count : 0
+        }
+        add = () => {
+            let {count} = this.state;
+            this.setState({
+                count : count + 1
+            })
+        }
+        render(){
+            let {count} = this.state
+            return (
+            <div>
+                <p>这个数字在增加 {count}</p>
+                {/* onClick 这个函数跟之前类的函数？ */}
+                <button onClick={this.add}>click me</button>
+            </div>
+        )
+        }
+
+        
+     } 
+
+     ReactDOM.render(<Count />,document.getElementById('app'))
+
+     
+
+    </script>
+</body>
+
+</html>

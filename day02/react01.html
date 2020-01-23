@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+        /* 输入框 */
+        class Input extends React.Component{
+            constructor(props){
+                super()
+
+                // this.input = React.createRef()
+            }
+
+            componentDidMount(){
+                console.log(this.props.children)
+            }
+
+            render(){
+               return (
+                    <div>
+                        <input type="text" ref={element => this.input = element} />
+                        <button onClick={this.add}>点击按钮</button>
+                    </div>
+               )
+            }
+
+
+            add = () => {
+                // 获取输入框的信息
+                // let info = this.input.current.value;
+                // 将数据包裹成对象
+                // this.props.change({ text:info});
+                //
+                // this.input.current.value = '';
+
+                console.log(this.input)
+
+            }
+        }
+
+        /* 列表 */
+
+        function List(props){
+            return (
+                <ul>
+                    {
+                        props.arr.map((item,index) => <li key={index}>{item.text}----{index+1}</li>)
+                    }
+                </ul>
+            )
+        }
+
+
+        /* 组件集合 */
+        class TodoList extends React.Component{
+            state = {
+                arr : [
+                    {text : '吃饭'},
+                    {text : '碎觉'},
+                    {text : '打豆豆'}
+                ]
+            }
+
+            render(){
+                let obj = this.state;
+                console.log()
+                return (
+                    <div>
+                        <h1>todolist</h1>
+                        <Input change={this.change} />
+                        <List {...obj} />
+                    </div>
+                )
+            }
+
+            /* 定义改变父组件的方法 */
+            change = (obj) => {
+                
+                const { arr } = this.state;
+                
+                this.setState(
+                    {
+                        arr: [ ...arr,obj]
+                
+                    }
+                    
+                )
+
+
+
+            }
+
+        }
+
+        ReactDOM.render(<TodoList />, document.getElementById('app'))
+
+      
+
+    </script>
+</body>
+
+</html>

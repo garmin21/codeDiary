@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+        const ColorContext = React.createContext({color:'blue'});
+        const CHANGE_COLOR = 'CHANGE_COLOR' // 操作类型
+        
+        const reduce = (prevState,action) => { // 更新 state 的 reduce 函数
+            switch (action.type) {
+                case CHANGE_COLOR:
+                    return action.color                    
+                default:
+                   return prevState
+            }
+        }
+        
+        /* 按钮组件 */
+        const Buttons = () => {
+            // const {dispatch} = React.useContext(ColorContext)
+            return(
+                <div>
+                    <button onClick={() => {dispatch({type:CHANGE_COLOR,color:'yellow'})}}>黄色</button>
+                    <button onClick={() => {dispatch({type:CHANGE_COLOR,color:'green'})}}>绿色</button>
+                </div>
+            )
+        }
+        /* 文字组件 */
+        const Show = () => {
+            const {color} = React.useContext(ColorContext)
+            return(
+                <p style={{color}}>字体颜色的展示为{color}</p>
+            )
+        }
+
+        const App = () => {
+
+            /* dispathch只需要提供一个action对象，然后会去调用 reduce 函数，生成最新的state,内部就会xxxxx,最后拿到最新的state,继续通过 context 传递给 子组件 */
+            const [color, dispatch] = React.useReducer(reduce, 'blue')
+            return(
+                <ColorContext.Provider value={{color,dispatch}}>
+                    <Show />
+                    <Buttons />
+                </ColorContext.Provider>
+            )
+        }
+
+
+        ReactDOM.render(<App />,document.getElementById('app'));
+
+
+
+        /* 
+        
+            总结分析 useContext + useReduces 实现 redux 的效果
+                1. 实现 静态组件
+                2. 使用了 useContext 来订阅 context，将 color 传递给子组件，子组件展示
+                3. 使用 useReduces 来模拟 redux 
+        
+         */
+
+
+
+    </script>
+</body>
+
+</html>

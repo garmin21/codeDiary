@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+
+        function Example() {
+        const [count, setCount] = React.useState(0);
+
+        // 相当于 componentDidMount 和 componentDidUpdate:
+        React.useEffect(() => {
+            // 使用浏览器的 API 更新页面标题
+            document.title = `You clicked ${count} times`;
+        });
+
+        return (
+            <div>
+            <p>You clicked {count} times</p>
+            <button onClick={() => setCount(count + 1)}>
+                Click me
+            </button>
+            </div>
+        );
+        }
+
+        ReactDOM.render(<Example />, document.getElementById('app'))
+
+      /* 
+      hook使用的两个规则
+        1. 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。
+        2. 只能在 React 的函数组件中调用 Hook。不要在其他 JavaScript 函数中调用
+        3. 还可以在自定义的hook中使用
+       */
+        /* 
+            其他 Hook
+            useContext 让你不使用组件嵌套就可以订阅 React 的 Context。
+            useReducer 可以让你通过 reducer 来管理组件本地的复杂 state。useState的代替方案
+         */
+        
+        /* 
+            useState 方法的返回值是什么？ 
+            返回值为：当前 state 以及更新 state 的函数。这就是我们写 const [count, setCount] = useState() 的原因
+
+            读取 state
+                class 中 使用 {this.state.xxx}
+                函数组件 直接 {xxx}
+            更新 state
+                class 中 调用 this.setState()
+                函数组件  调用更新状态函数()
+         */
+
+
+         /* 
+            Effect Hook 可以让你在函数组件中执行副作用操作
+            componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合。
+
+            如果你的 effect 返回一个函数，React 将会在执行清除操作时调用它
+
+          */
+            /* 
+            自定义hook
+         
+                自定义 Hook 是一个函数，其名称以 “use” 开头，函数内部可以调用其他的 Hook
+                自定义 Hook 以 use 开头 是一种约定
+                两个组件都使用了相同的hook不会共享 state
+                自定义 hook 每次调用都是获取的独立 state
+            
+             */
+
+            /* 
+                useMemo 可以用来存储数据
+                useCallback 
+                useRef useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数
+
+
+             */
+
+             /* 
+             
+                eslint-plugin-react-hooks : react-hooks 的使用规程检查包
+              */
+
+    </script>
+</body>
+
+</html>

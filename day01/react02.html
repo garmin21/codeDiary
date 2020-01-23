@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表</title>
+</head>
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/react/16.10.2/umd/react.development.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.10.1/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+    <script type="text/babel">
+    
+       const obj = [
+           {name:'曹操',age : 18, sex : '男'},
+           {name:'曹值',age : 16, sex : '男'},
+           {name:'曹娘',age : 10, sex : '女'},
+           {name:'槽操',age : 18, sex : '男'},
+           {name:'草泥马',age : 100, sex : '神兽'}
+       ]
+
+
+        ReactDOM.render(<div>
+            <ul>
+            {
+
+                obj.map((item,index) => {
+                    return <li key={index}>{item.name}----{item.age}----{item.sex}</li>
+                })
+
+            }
+            </ul>
+        </div>,document.getElementById('app'))
+
+
+    </script>
+</body>
+</html>

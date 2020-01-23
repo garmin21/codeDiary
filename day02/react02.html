@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        p {
+            /* opacity: ; */
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+
+        class Opicty extends React.Component{
+
+           state = {
+                opacity : 1,
+            }
+
+            componentDidMount(){
+               this.clearId = setInterval(() => {
+                   let {opacity} = this.state
+                   opacity -= 0.02;
+                   if(opacity <= 0) opacity = 1
+                    this.setState({opacity})
+               }, 1000/60);
+            }
+
+            componentWillUnmount(){
+                clearInterval(this.clearId)
+            }
+
+            clii = () => {
+                ReactDOM.unmountComponentAtNode(document.getElementById('app'));
+            }
+
+            render(){
+                let {opacity} = this.state
+                return (
+                    <div>
+                        <h1 style={{opacity}}>鹅鹅鹅，曲项向天歌。白毛浮绿水，红掌拨清波。</h1>
+                        <button onClick = {this.clii}>点击卸载组件</button>
+                        <textarea>
+                            * 组件创建阶段：// 组件创建阶段的生命周期函数，有一个显著的特点：创建阶段的生命周期函数，在组件的一辈子中，只执行一次；
+                                + constructor : 调用 constructor 构造器中的 this.state ，来初始化组件的状态。,初始化this.props
+                                + componentWillMount: 组件将要被挂载，此时还没有开始渲染虚拟DOM
+                                + render：第一次开始渲染真正的虚拟DOM，当render执行完，内存中就有了完整的虚拟DOM了
+                                + componentDidMount: 组件完成了挂载，此时，组件已经显示到了页面上，当这个方法执行完，组件就进入都了 运行中 的状态
+                            * 组件运行阶段：// 也有一个显著的特点，根据组件的state和props的改变，有选择性的触发0次或多次；
+                                + componentWillReceiveProps: 组件将要接收props，此时，只要这个方法被触发，就证明父组件为当前子组件传递了新的属性值；
+                                + shouldComponentUpdate: 组件是否需要被更新，此时，组件尚未被更新，但是，state 和 props 肯定是最新的
+                                + componentWillUpdate: 组件将要被更新，此时，尚未开始更新，内存中的虚拟DOM树还是旧的
+                                + render: 此时，又要重新根据最新的 state 和 props 重新渲染一棵内存中的 虚拟DOM树，当 render 调用完毕，内存中的旧DOM树，已经被新DOM树替换了！此时页面还是旧的
+                                + componentDidUpdate: 此时，页面又被重新渲染了，state 和 虚拟DOM 和 页面已经完全保持同步
+                            * 组件销毁阶段：// 也有一个显著的特点，一辈子只执行一次；
+                                + componentWillUnmount: 组件将要被卸载，此时组件还可以正常使用
+                        </textarea>
+                    </div>
+                )
+            }
+
+
+        }
+
+        
+
+        ReactDOM.render(<Opicty />, document.getElementById('app'))
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+         const countContext = React.createContext({number:0});
+         const ADD_COUNT = 'ADD_COUNT';
+         const DEL_COUNT = 'DEL_COUNT';
+
+         const reduce = (prevState ,action) => {
+                switch (action.type) {
+                    case ADD_COUNT:
+                        return prevState + +action.number                        
+                    case DEL_COUNT:
+                        return prevState - +action.number
+                    default:
+                        return prevState
+                }
+         } 
+         function Info(){
+            const {number} = React.useContext(countContext)
+             return (
+                <p>当前的最新state为 {number}</p>
+             )
+         }
+         function Garmin(){
+             const {dispatch} = React.useContext(countContext)
+             return (
+                 <div>
+                    <button onClick={() => {dispatch({type:ADD_COUNT,number:1})}}>+</button>
+                    <button onClick={() => {dispatch({type:DEL_COUNT,number:1})}}>-</button>
+                 </div>
+             )
+         }
+         function App(){
+            const [number,dispatch] = React.useReducer(reduce,0)
+
+             return (
+                 <div>
+                    <countContext.Provider value={{number,dispatch}}>
+                        <Info />
+                        <Garmin />
+                    </countContext.Provider>
+                 </div>
+             )
+         }
+         ReactDOM.render(<App />,document.getElementById('app'));
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+
+        function Example() {
+        // 声明一个叫 “count” 的 state 变量。
+        /* 
+            第一个 状态
+            第二个 更新状态的方法
+
+            useState 它不会把新的 state 和旧的 state 进行合并。
+            参数是默认值
+         */
+        const [count, setCount] = React.useState(0);
+
+        /* 
+            可以多个 useState ,按照顺序执行
+         */
+
+        return (
+            <div>
+            <p>You clicked {count} times</p>
+            <button onClick={() => setCount(count + 1)}>
+                Click me
+            </button>
+            </div>
+        );
+        }
+
+        ReactDOM.render(<Example />, document.getElementById('app'))
+
+      
+
+    </script>
+</body>
+
+</html>

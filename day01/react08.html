@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无状态组件</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="https://cdn.bootcss.com/react/16.10.2/umd/react.development.js"></script>
+    <script src="https://cdn.bootcss.com/react-dom/16.10.1/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
+    <script type="text/babel">
+
+        const user  = {
+            name : 'jack',
+            age : 18,
+            sex : '男'
+        }
+        
+
+        class Person extends React.Component{
+            static propTypes = {
+
+                name: PropTypes.string.isRequired,
+                age: PropTypes.number,
+                sex: PropTypes.string,
+            }
+
+                    
+            constructor(props){
+                super(props)
+                // console.log()
+            }
+            
+
+            render(){
+                const {name,age,sex} = this.props
+                return(
+                    <div>
+                        <ul>
+                            {name} --- {age} --- {sex}
+                        </ul>
+                    </div>
+                )
+            }
+        }
+            
+        ReactDOM.render(<Person {...user}/>, document.getElementById('app'));
+
+        // 2.4.4
+
+    </script>
+</body>
+
+</html>

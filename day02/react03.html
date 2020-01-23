@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" id="txt" onkeyup="change(event)" style="width: 100%;border: 1px solid black;"><br>
+    <p id="myp" style="width: 100%;border: 1px solid black;"></p>
+
+
+    <script>
+        let myInput = document.getElementById('txt');
+        let myP = document.getElementById('myp');
+
+        let obj = {};
+        let info = '鹅鹅鹅，曲项向天歌，白猫葫芦丝'
+
+        myInput.value = info;
+        myP.textContent = info;
+
+        Object.defineProperty(obj, 'props', {
+            set(newValue) {
+                info = newValue;
+                myInput.value = newValue;
+                myP.textContent = newValue;
+
+                console.log(info)
+            },
+            get() {
+                return info
+            }
+        })
+
+        function change(e) {
+            obj.props = myInput.value
+        }
+
+        let cont = 0;
+
+        setInterval(() => {
+            obj.props = cont ++;
+        },1000)
+
+
+        
+        
+    </script>
+
+</body>
+
+</html>

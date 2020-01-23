@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * inport {createState, combineReducers} from 'redux' 
+         * 
+         */
+
+         export default function createState(reduce){
+
+            let reduxState = undefined; // 初始化状态数据
+            let litenArr = [];
+
+            /**
+             * 返回 redux 上的状态数据
+             */ 
+            function getState(){
+                return reduxState
+            }
+
+            function dispatch(action){
+                // 最终会触发 reduce 函数
+                let newState = reduce(reduxState,action)
+                // 更新 状态
+                reduxState = newState; // 这个只能保证是把 redux 中的状态数据给更新了
+                // 如何实现组件更新，componentDidMount
+                //调用更新
+                litenArr.forEach(item => item());
+            }
+            /**
+             * 用来实现组件更新的方法
+             */ 
+            function subscribe(liten){
+                litenArr.push(liten)
+            }
+
+            // 初始化状态数据
+            currentState = reducers(currentState, { type: '@@INIT-REDUX-XXXXX' });
+
+            /**
+             * 向外返回一个对象
+             */ 
+             return {
+                getState,
+                dispatch,
+                subscribe 
+             };
+         }
+
+         /**
+          * 合并多个 reduce 函数，返回一个新函数
+          */
+         export default function combineReducers(reducesObj){
+            /**
+             * 假如有多个 reduce 函数，
+             */
+
+             return function (prevState = {},action){ // 这个函数做为将来要调用的函数
+                // 这个reduce 函数的返回新状态是什么
+                /**
+                 * 是一个对象，{
+                 *      number :  reducesObj.number(prevState.number,action)
+                 *      user : reducesObj.user(prevState.user,action)
+                 *  }
+                 */
+                 /**
+                  * 将来我需要把 更新后的旧状态传入 reduce 函数
+                  * prevState ---> 对象，旧状态
+                  * prevState == {
+                  *     number :  reducesObj.number(prevState,action)
+                  *     user : reducesObj.user(prevState,action)
+                  *    }
+                  */ 
+
+                  let reduceObj = {}
+
+                  // 拿到属性名 [number,user]
+                  const keys = Object.keys(reducesObj)
+                  // 在拿到属性值
+                  for (let i = 0; i < keys.length; i++) {
+                      let key = keys[i];
+                      // 拿到属性值
+                      let reduce = reducesObj[key]
+                      reduceObj[key] = reduce(prevState[key],action)
+                  }
+                 
+                  return reduceObj
+             }
+         } 
+        
+        </script>
+</body>
+</html>
