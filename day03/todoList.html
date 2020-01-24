@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+        /* 
+                                                动画效果做不了
+            需求，实现一个 todoList
+            1. 实现静态组件
+            2. useContext
+         */
+        const taskContext = React.createContext();
+
+        const data = [
+            {text:'买车',id:1},
+            {text:'买保险',id:2},
+            {text:'买房',id:3}
+        ]
+        const ADD_TASK = 'ADD_TASK'
+        const DEL_TASK = 'DEL_TASK'
+        /*  */
+        const reducer = (prevState,action) => {
+            switch (action.type) {
+                case ADD_TASK:
+                    return [action.data,...prevState]
+                case DEL_TASK:
+                    return prevState.filter(item => {
+                        if(item.id !== action.data) return true
+                    })
+                default:
+                    return prevState
+            }
+        }
+
+        function App(){
+            const [task, dispatch] = React.useReducer(reducer, data)
+            return(
+                <div>
+                    <taskContext.Provider value={{task,dispatch}}>
+                        <TaskInput /> 
+                        <ListTodo />
+                        <TodoListInfo />
+                    </taskContext.Provider>
+                </div>
+            )
+        }
+        /* 任务输入框 */
+        function TaskInput(){
+            const {task,dispatch} = React.useContext(taskContext)
+            const [state, setstate] = React.useState('')
+
+            const getInfo = (e) => {
+               setstate(e.target.value)
+            }
+            const setInfo = (e) => {
+                if(e.keyCode !== 13 ) return 
+
+                dispatch({type:ADD_TASK,data:{text:state,id:task.length + 1}});
+                
+                e.target.value = '' // 清空输入框
+            }
+            return (
+                    <input type="text" placeholder="输入你的任务按回车确认!" onChange={getInfo} onKeyDown={setInfo} />
+            )
+        }
+        /* 列表 */
+        function ListTodo(){
+            const {task,dispatch} = React.useContext(taskContext)
+            /* 删除 */
+            const ondelete = (id) => {
+                return () => {
+                    dispatch({type:DEL_TASK,data : id})
+                }
+            }
+            /* 选中 */
+            const selected = (e) => {
+                console.log(e.target.checked)
+                /* 到这里不指定怎么弄了 */
+            }
+            return (
+                <div>
+                    {
+                        task.map(item => (
+                            <p key={item.id}><input type="checkbox" onChange={selected} /><span>{item.text}</span><input type="button" value="删除" onClick={ondelete(item.id)} /></p>
+                        ))
+                    }
+                </div>
+            )
+        }
+        /* 以完成信息 */
+        function TodoListInfo(){
+            return (
+                <div>
+                    <div>
+                        <input type="checkbox" />
+                        <span>以完成 0<span>/全部3</span></span>
+                        <button>清空全部</button>
+                    </div>
+                </div>
+            )
+        }
+        ReactDOM.render(<App />,document.getElementById('app'));
+
+    </script>
+</body>
+
+</html>
