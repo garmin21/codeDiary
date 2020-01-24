@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+    /* 
+        实现 一个自定义 hook ，实时拿到页面的宽度和高度,进行展示
+     */
+    /* 自定义 hook */
+     function useGetWindowSize(){
+         /* 使用 useState 进行状态管理 */
+        const [size, setSize] = React.useState({
+            width : document.documentElement.clientWidth,
+            height : document.documentElement.clientHeight
+        })
+        /* 每次状态发生改变，实时的获取最新的状态进行赋值 */
+        React.useEffect(() => {
+            window.addEventListener('resize',setSize({
+                width : document.documentElement.clientWidth,
+                height : document.documentElement.clientHeight
+            }))
+            return () => { // 必须包装组件卸载时，解绑DOM事件
+                window.removeEventListener('resize',setSize)
+            };
+        }, [size])
+
+         return size;
+     }
+
+     function App(){
+         /* 拿到 size 进行展示 */
+         const size = useGetWindowSize();
+         return (
+             <p>{size.width}+{size.height}</p>
+         )
+     }
+     ReactDOM.render(<App />,document.getElementById('app'))
+    </script>
+</body>
+
+</html>
