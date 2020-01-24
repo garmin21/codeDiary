@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+
+        /* 
+        1. 拿到DOM元素
+        2. 存储变量
+     */
+
+        function Input(){
+            const textRef = React.useRef(null);
+            const [state, setstate] = React.useState('你好')
+
+            
+            // 存储变量
+            React.useEffect(() => {
+                textRef.current = state;
+                console.log('textRef.current:',textRef.current,textRef)
+                /* 
+                    textRef.current 是我们的值
+                    textRef 是一个存储值的对象
+                 */
+                 console.log(this) // undefined
+            })
+
+            return (
+                <div>
+                    <input type="text"  
+                        ref={textRef} 
+                        value={state} 
+                        onChange={(e) => {setstate(e.target.value)}}  />
+                    <button onClick={() => {console.log(textRef); return false}}>ddddddd</button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<Input />,document.getElementById('app'))
+        
+    </script>
+</body>
+
+</html>
