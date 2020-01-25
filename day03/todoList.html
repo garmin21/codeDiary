@@ -17,105 +17,174 @@
     <script src="../reactjs/react-dom.development.js"></script>
     <script src="../reactjs/babel.min.js"></script>
     <script type="text/babel">
-        /* 
-                                                动画效果做不了
-            需求，实现一个 todoList
-            1. 实现静态组件
-            2. useContext
-         */
-        const taskContext = React.createContext();
 
-        const data = [
-            {text:'买车',id:1},
-            {text:'买保险',id:2},
-            {text:'买房',id:3}
-        ]
-        const ADD_TASK = 'ADD_TASK'
-        const DEL_TASK = 'DEL_TASK'
-        /*  */
-        const reducer = (prevState,action) => {
-            switch (action.type) {
-                case ADD_TASK:
-                    return [action.data,...prevState]
-                case DEL_TASK:
-                    return prevState.filter(item => {
-                        if(item.id !== action.data) return true
-                    })
-                default:
-                    return prevState
+        class Input extends React.Component{
+            state = {
+                name : ''
             }
-        }
+            // textIn = React.createRef()
+            getInfo = (e) => {
+                this.setState({
+                    name : e.target.value
+                })
+            } 
+           id = 2
+           /* 添加 */
+           addTask = () => {
+               const {name} = this.state
+                const obj = {
+                    name,
+                    id: ++this.id,
+                    status : 0
+                }
+                this.props.add(obj)
+                /*  */
+                console.log(this)
+                this.setState({
+                    name : ''
+                })
+           } 
 
-        function App(){
-            const [task, dispatch] = React.useReducer(reducer, data)
-            return(
+           render(){
+               const {name} = this.state
+               return (
                 <div>
-                    <taskContext.Provider value={{task,dispatch}}>
-                        <TaskInput /> 
-                        <ListTodo />
-                        <TodoListInfo />
-                    </taskContext.Provider>
+                    <input type="text" onChange={this.getInfo} value={name}/>
+                    <button onClick={this.addTask}>添加任务</button>
                 </div>
-            )
-        }
-        /* 任务输入框 */
-        function TaskInput(){
-            const {task,dispatch} = React.useContext(taskContext)
-            const [state, setstate] = React.useState('')
+               )
+           }
+       }
 
-            const getInfo = (e) => {
-               setstate(e.target.value)
-            }
-            const setInfo = (e) => {
-                if(e.keyCode !== 13 ) return 
 
-                dispatch({type:ADD_TASK,data:{text:state,id:task.length + 1}});
-                
-                e.target.value = '' // 清空输入框
-            }
-            return (
-                    <input type="text" placeholder="输入你的任务按回车确认!" onChange={getInfo} onKeyDown={setInfo} />
-            )
-        }
-        /* 列表 */
-        function ListTodo(){
-            const {task,dispatch} = React.useContext(taskContext)
-            /* 删除 */
-            const ondelete = (id) => {
+       class ShowTask extends React.Component{
+          
+            removeTask =(id) => {
                 return () => {
-                    dispatch({type:DEL_TASK,data : id})
+                    this.props.remove(id)
+                    /* 删除的时候也要重新的计算总数 */
+                    this.props.UpdateTotal();
                 }
             }
-            /* 选中 */
-            const selected = (e) => {
-                console.log(e.target.checked)
-                /* 到这里不指定怎么弄了 */
+            Update = (status,id) => {
+               return () => {
+                   /* 从这里是拿到了当前项的状态和id 将需要找到对应的 数据，将器状态给改变 */
+                status = status === 0 ? 1 : 0;
+                // checkbox 一共就两种变化，true || false
+                // 刚好和 status 对应 起来，进行 stutas 赋值
+                this.props.Update(status,id);
+                this.props.UpdateTotal();
+               }
             }
-            return (
+           render(){
+               
+               return (
                 <div>
                     {
-                        task.map(item => (
-                            <p key={item.id}><input type="checkbox" onChange={selected} /><span>{item.text}</span><input type="button" value="删除" onClick={ondelete(item.id)} /></p>
-                        ))
+                        this
+                        .props
+                        .list
+                        .map((item,index) => <p key={item.id}><input type="checkbox" onChange={this.Update(item.status,item.id)} /><span>{item.name}</span>-----<span onClick={this.removeTask(item.id)}>删除</span></p>)
                     }
                 </div>
-            )
-        }
-        /* 以完成信息 */
-        function TodoListInfo(){
-            return (
-                <div>
+               )
+           }
+       }
+
+       /* 主组件 */
+       class Todolist extends React.Component{
+           state = {
+                list: [{
+                    id: 0,
+                    name: '吃饭',
+                    status: 0
+                }, {
+                    id: 1,
+                    name: '睡觉',
+                    status: 0
+                }, {
+                    id: 2,
+                    name: '打豆豆',
+                    status : 0
+                }],
+                total : 0
+           }
+           /* 定义一个更新state的方法 */
+           add = (value) => {
+               const {list} = this.state;
+                this.setState({
+                    list : [value,...list]
+                })
+                
+           }
+           /* 删除 */
+           remove = (id) => {
+            const {list} = this.state;
+                this.setState({
+                    list : list.filter(item => {
+                        if(item.id !== id){
+                            return true
+                        }
+                        /* 将状态给改了 */
+                        item.status = 0;
+                    })
+                })
+           }
+           /* 更新已完成的方法 */
+           UpdateItem = (status,id) =>{
+            const {list} = this.state;
+                list.forEach(item => {
+                    if(item.id === id){
+                        /* 将status更改 */
+                        item.status = status
+                    }
+                })
+           }
+           /* 计算已完成 */
+           UpdateTotal = () => {
+            const {list} = this.state;
+            let arr = list.filter(item => item.status !== 0);
+            this.setState({
+                total : arr.length
+            })
+           }
+           
+            render(){
+               const {list,total} = this.state
+                return (
                     <div>
-                        <input type="checkbox" />
-                        <span>以完成 0<span>/全部3</span></span>
-                        <button>清空全部</button>
+                        <h1>TODOLIST</h1>
+                        <Input add={this.add} UpdateTotal={this.UpdateTotal}  />
+                        <div>
+                            <ShowTask 
+                            list={list} 
+                            remove={this.remove}
+                            Update={this.UpdateItem}
+                            UpdateTotal={this.UpdateTotal} />
+                            <div><span>已完成{total}</span>/<span>总数{list.length}</span></div>
+                        </div>
                     </div>
-                </div>
-            )
-        }
-        ReactDOM.render(<App />,document.getElementById('app'));
+                )
+            }
+       }
+       ReactDOM.render(<Todolist />,document.getElementById('app'));
+
 
     </script>
+
+    <!-- 
+        难点1 ： 数据结构的设计，很厉害，这样设计
+        难点2 ： 添加和删除 都是 子组件调用父组件传递过来的方法用来更新状态，这个很简单
+        重难点3 ： 当我们选中 checkbox 摸不着头绪
+                1. 我们将一个更改 status 的方法，传递给子组件去调用，
+                2. 当我们 checkbox 点击需要触发更新父组件传递过来的方法，
+                    在触发之前呢需要，将渲染元素当前的stutas,id传递过去，
+                    1. 为什么需要 stutas 呢？
+                        因为我们的 checkbox 只有选中和不选中，两种情况，刚好呢我们设计的 stutas 就是用来确定当前项是有没有被选中的状态
+                        所以呢：通过 status = status === 0 ? 1 : 0;得到最新的stutas,
+                    2. 为什么需要 id 呢?
+                        因为将来我们需要，通过 id 进行比较将对应的 数据中的stutas 给修改
+     -->
 </body>
 
 </html>
