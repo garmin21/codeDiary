@@ -49,12 +49,25 @@
                     2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
                     3. 如果上一个then方法抛出异常，那么就是 失败状态
                 返回的值是上一个then方法的返回值
-
+            catch 方法
+                4. 形参就看 reject(xxx) 或者上一个 then 方法异步回调的返回值
+                5. return 的返回值，是下一个 then 方法 的状态
+                1. 如果没有返回值，就是一个成功状态的 promise 
+                2. 如果有返回值，看是不是 promise对象 ,是就是看promise 的状态
+                3. 如果抛出异常，那么就是失败状态的promise
 
      -->
 
     <script>
         MyPromise.prototype.then = function (onResolved, onRejected) {
+            /* 如果onResolved存在，那就是 onRejected ，不存在，给他一个函数，为了避免报错 */
+            onResolved = onResolved === undefined ? value => value : onResolved;
+            /* 一但你不给 onRejected ，把值给抛出去，而不是返回一个异常信息*/
+            onRejected = onRejected ? onRejected : reason => {
+                 throw reason
+            }
+
+            /* 以上是catch方法的 */
             const that = this;
             let mypromise = null;
             /* 封装函数实现代码复用 */
@@ -112,6 +125,9 @@
             return mypromise // 为了实现链式调用
         }
 
+        MyPromise.prototype.catch = function(onRejected){
+            return this.then(undefined,onRejected); // 调用then 传 onRejected
+        }
         function MyPromise(exec) {
             this.status = 'pending' // 初始化状态
             this.value = undefined; // 初始化默认值
@@ -155,20 +171,15 @@
 
         const mypromise = new MyPromise((resolve, reject) => {
             setTimeout(() => {
-                resolve(111)
+                reject(111)
             }, 2000);
         })
         mypromise
             .then((value) => {
                 console.log(value)
-                return new MyPromise((resolve, reject) => {
-                    reject('okok')
-                })
             })
-            .then(value => {
-                console.log(value)
-            }, (reason) => {
-                console.log(44, reason)
+            .catch(reason => {
+                console.log(reason)
             })
     </script>
 </body>
