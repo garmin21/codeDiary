@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+<body>
+    <!-- 
+        promise 分析:
+            1. promise实例 内部有三种状态
+                1. pending 状态
+                2. resolved / fulfilled 成功状态
+                3. rejected 失败状态
+            2. 用法：是往Promise 构成函数中传递一个回调函数
+                1. 参数一： resolve 也是一个函数
+                2. 参数二： jeject 也是函数
+                3. 状态只能修改一次
+            3. Promise.then 方法，pending 不触发回调
+                1. 接收两个回调函数
+                2. 当promise对象的状态为成功状态，触发第一个回调函数
+                3. 当promise对象的状态为失败状态，触发第二个回调函数
+                4. 回调函数接收一个参数，参数是 Promise对象调用成功/失败的函数，所传递的参数
+            4. Priomise.catch 方法 pending 不触发
+                1. 触发失败的回调函数，接收失败回调函数作为参数
+            5. Promise.finally 方法 pending 不触发回调
+                1. 接收一个回调函数，
+                2. 根据 promise 的状态进行触发，但是 pending 不触发
+            6. Promise 构造函数的方法
+                1. Promise.resolve() // 创建一个成功状态的promise
+                2. Promise.reject() // 创建一个失败状态的promise
+                3. new Promise() // 创建一个初始化状态的promise
+                4. Promise.all // 
+        原理解析：
+            mdn
+            then 是一个异步方法，里面的回调函数都是异步执行的
+            then 第一次被调用时，默认时 pending 状态，所以不会触发then 方法里面 的回调函数
+            then(onResolved,onRejected)
+                promise的状态是 resolved 时， 异步调用 onResolved 函数
+                promise的状态是 rejected 时， 异步调用 onRejected 函数
+                promise的状态是 pending 时， 将onResolved 和 onRejected 存储到一个数据结构中，将来会调用
+
+
+     -->
+
+     <script>
+         
+         function MyPromise(exec){
+            this.status = 'pending' // 初始化状态
+            this.value = undefined; // 初始化默认值
+            const that = this; // 缓存this 
+
+            try { // 一但出错，就会调用 失败回调
+                exec(resolve,reject)
+            } catch (error) {
+                reject(error)
+            }
+
+            /* 成功的回调 */
+            function resolve(value){
+                if(that.status === 'pending'){ // 状态只能修改一次
+                    that.status = 'resolved' // 修改实例的状态
+                    that.value = value // 赋值
+                }
+            }
+            /* 失败的回调 */
+            function reject(reason){
+                if(that.status === 'pending'){
+                    that.status = 'rejected'
+                    that.value = reason;
+                }
+            }
+
+         }
+
+
+
+        //  const mypromise = new MyPromise((resolve,reject) => {
+
+        //  })
+     </script>
+</body>
+</html>
