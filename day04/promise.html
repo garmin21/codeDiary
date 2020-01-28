@@ -57,45 +57,36 @@
         MyPromise.prototype.then = function (onResolved, onRejected) {
             const that = this;
             let mypromise = null;
+            /* 封装函数实现代码复用 */
+            function handle(fn,value,resolve,reject) {
+                // 2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
+                try {
+                    const promise = fn(value)
+                    if (promise instanceof MyPromise) {
+                        // 说明 是 mypromise 对象
+                        promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
+                    } else {
+                        // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
+                        resolve(promise) // 返回值看上一个then的返回值
+                    }
+                } catch (e) {
+                    // 3. 如果上一个then方法抛出异常，那么就是 失败状态
+                    reject(e)
+                }
+            }
 
             if (that.status === 'resolved') {
                 // 如果是成功状态
                 mypromise = new MyPromise((resolve, reject) => {
                     setTimeout(() => {
-                        // 2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
-                        try {
-                            const promise = onResolved(that.value)
-                            if (promise instanceof MyPromise) {
-                                // 说明 是 mypromise 对象
-                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
-                            } else {
-                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
-                                resolve(promise) // 返回值看上一个then的返回值
-                            }
-                        } catch (e) {
-                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
-                            reject(e)
-                        }
+                        handle(onResolved,that.value,resolve,reject)
                     }, 0);
                 })
             } else if (that.status === 'rejected') {
                 // 如果是失败状态
                 mypromise = new MyPromise((resolve, reject) => {
                     setTimeout(() => {
-                        // 2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
-                        try {
-                            const promise = onRejected(that.value)
-                            if (promise instanceof MyPromise) {
-                                // 说明 是 mypromise 对象
-                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
-                            } else {
-                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
-                                resolve(promise) // 返回值看上一个then的返回值
-                            }
-                        } catch (e) {
-                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
-                            reject(e)
-                        }
+                        handle(onRejected,that.value,resolve,reject)
                     }, 0);
                 })
             } else if (that.status === 'pending') {
@@ -110,34 +101,10 @@
                      */
 
                     that.callBacks.onResolved = () => {
-                        try {
-                            const promise = onResolved(that.value)
-                            if (promise instanceof MyPromise) {
-                                // 说明 是 mypromise 对象
-                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
-                            } else {
-                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
-                                resolve(promise) // 返回值看上一个then的返回值
-                            }
-                        } catch (e) {
-                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
-                            reject(e)
-                        }
+                        handle(onResolved,that.value,resolve,reject)
                     };
                     that.callBacks.onRejected = () => {
-                        try {
-                            const promise = onRejected(that.value)
-                            if (promise instanceof MyPromise) {
-                                // 说明 是 mypromise 对象
-                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
-                            } else {
-                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
-                                resolve(promise) // 返回值看上一个then的返回值
-                            }
-                        } catch (e) {
-                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
-                            reject(e)
-                        }
+                        handle(onRejected,that.value,resolve,reject)
                     };
                 })
             }
@@ -194,14 +161,14 @@
         mypromise
             .then((value) => {
                 console.log(value)
-                return new MyPromise((resolve,reject) => {
+                return new MyPromise((resolve, reject) => {
                     reject('okok')
                 })
             })
             .then(value => {
                 console.log(value)
-            },(reason) => {
-                console.log(44,reason)
+            }, (reason) => {
+                console.log(44, reason)
             })
     </script>
 </body>
