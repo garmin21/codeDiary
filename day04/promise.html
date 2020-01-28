@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>promise</title>
 </head>
+
 <body>
     <!-- 
         promise 分析:
@@ -40,45 +42,83 @@
                 promise的状态是 resolved 时， 异步调用 onResolved 函数
                 promise的状态是 rejected 时， 异步调用 onRejected 函数
                 promise的状态是 pending 时， 将onResolved 和 onRejected 存储到一个数据结构中，将来会调用
+                异步回调函数的参数是 调用成功或失败的函数传递过来的值，并且在实例对象上
 
 
      -->
 
-     <script>
-         
-         function MyPromise(exec){
+    <script>
+        MyPromise.prototype.then = function (onResolved, onRejected) {
+            const that = this;
+
+            if (that.status === 'resolved') {
+                // 如果是成功状态
+                setTimeout(() => {
+                    onResolved(that.value)
+                }, 0);
+            } else if (that.status === 'rejected') {
+                // 如果是失败状态
+                setTimeout(() => {
+                    onRejected(that.value)
+                }, 0);
+            } else if (that.status === 'pending') {
+                // 如果是初始化状态
+                this.callBacks.onResolved = onResolved;
+                this.callBacks.onRejected = onRejected;
+            }
+        }
+
+        function MyPromise(exec) {
             this.status = 'pending' // 初始化状态
             this.value = undefined; // 初始化默认值
-            const that = this; // 缓存this 
+            const that = this; // 缓存this
+            this.callBacks = {} // 存储异步回调函数的数据结构 
 
             try { // 一但出错，就会调用 失败回调
-                exec(resolve,reject)
+                exec(resolve, reject)
             } catch (error) {
                 reject(error)
             }
 
             /* 成功的回调 */
-            function resolve(value){
-                if(that.status === 'pending'){ // 状态只能修改一次
+            function resolve(value) {
+                if (that.status === 'pending') { // 状态只能修改一次
                     that.status = 'resolved' // 修改实例的状态
                     that.value = value // 赋值
+                    if (that.callBacks.onResolved) { // 解决bug, 
+                        setTimeout(() => {
+                            that.callBacks.onResolved(value); // 调用异步回调函数   
+                        });
+                    }
                 }
             }
             /* 失败的回调 */
-            function reject(reason){
-                if(that.status === 'pending'){
+            function reject(reason) {
+                if (that.status === 'pending') {
                     that.status = 'rejected'
                     that.value = reason;
+                    if (that.callBacks.onRejected) {
+                        setTimeout(() => {
+                            that.callBacks.onRejected(reason); // 调用异步回调函数
+                        });
+                    }
                 }
             }
 
-         }
+        }
 
 
 
-        //  const mypromise = new MyPromise((resolve,reject) => {
-
-        //  })
-     </script>
+        const mypromise = new MyPromise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(111)
+            }, 2000);
+        })
+        mypromise.then((value) => {
+            console.log(value)
+        })
+        //  console.log(mypromise)
+    </script>
 </body>
+
 </html>
