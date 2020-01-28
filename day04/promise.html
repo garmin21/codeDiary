@@ -128,6 +128,50 @@
         MyPromise.prototype.catch = function (onRejected) {
             return this.then(undefined, onRejected); // 调用then 传 onRejected
         }
+
+        MyPromise.resolve = function (value) {
+            return new MyPromise((resolve, reject) => resolve(value))
+        }
+        MyPromise.reject = function (reason) {
+            return new MyPromise((resolve, reject) => reject(reason))
+        }
+        // 接受一个数组（数组中放置n个promise对象），只有所有promise对象都成成功状态，方法返回值的promise才是成功
+        // 只要有一个失败，方法返回值的promise就失败
+        MyPromise.all = function (promises) {
+            // promises的长度
+            const promiseLength = promises.length;
+            // 定义标识变量: promise对象成功的数量
+            let resolvedCount = 0;
+            // 成功的结果值
+            const resolvedValues = [];
+            return new MyPromise((resolve, reject) => {
+                for (let i = 0; i < promiseLength; i++) {
+                    const promise = promises[i];
+                    // 看promise的状态
+                    promise.then((value) => {
+                        resolvedCount++;
+                        // 不能用push，输出顺序会乱
+                        // 使用下标，才能保证顺序ok
+                        resolvedValues[i] = value;
+                        if (resolvedCount === promiseLength) {
+                            // 说明都成功了
+                            resolve(resolvedValues);
+                        }
+                    }, reject)
+                }
+            })
+        }
+
+        const promise = new MyPromise((resolve, reject) => {
+            console.log('executor函数执行了~');
+            setTimeout(() => {
+                // resolve(111);
+                reject(222);
+            }, 2000)
+        })
+
+
+
         // MyPromise.prototype.finally = function (onResolved) {
         //     const that = this;
         //     return new Promise((resolve, reject) => {
