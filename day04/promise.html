@@ -104,9 +104,41 @@
                     /* 
                         由于一上来是 pending 状态，会执行这里的操作，但是他既没有执行 resolve 也没有执行 reject ，那么永远就都是pending
                         状态，第二个then 就永远不会触发
+
+                        that 是第一次then 方法的调用者，mypromise 是 前一个 then 返回的 mypromise 对象
+                        我们需要更改的是 前一个 then 返回的 mypromise 对象 的状态
                      */
-                    that.callBacks.onResolved = onResolved;
-                    that.callBacks.onRejected = onRejected;
+
+                    that.callBacks.onResolved = () => {
+                        try {
+                            const promise = onResolved(that.value)
+                            if (promise instanceof MyPromise) {
+                                // 说明 是 mypromise 对象
+                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
+                            } else {
+                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
+                                resolve(promise) // 返回值看上一个then的返回值
+                            }
+                        } catch (e) {
+                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
+                            reject(e)
+                        }
+                    };
+                    that.callBacks.onRejected = () => {
+                        try {
+                            const promise = onRejected(that.value)
+                            if (promise instanceof MyPromise) {
+                                // 说明 是 mypromise 对象
+                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
+                            } else {
+                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
+                                resolve(promise) // 返回值看上一个then的返回值
+                            }
+                        } catch (e) {
+                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
+                            reject(e)
+                        }
+                    };
                 })
             }
 
@@ -162,10 +194,14 @@
         mypromise
             .then((value) => {
                 console.log(value)
-                return 111
+                return new MyPromise((resolve,reject) => {
+                    reject('okok')
+                })
             })
             .then(value => {
                 console.log(value)
+            },(reason) => {
+                console.log(44,reason)
             })
     </script>
 </body>
