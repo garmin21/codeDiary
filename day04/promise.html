@@ -43,6 +43,12 @@
                 promise的状态是 rejected 时， 异步调用 onRejected 函数
                 promise的状态是 pending 时， 将onResolved 和 onRejected 存储到一个数据结构中，将来会调用
                 异步回调函数的参数是 调用成功或失败的函数传递过来的值，并且在实例对象上
+            then方法的链式调用
+                第二个then方法内部触发的异步回调函数看上一个then方法
+                    1. 如果上一个then方法，没有返回值，那么默认是成功状态
+                    2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
+                    3. 如果上一个then方法抛出异常，那么就是 失败状态
+                返回的值是上一个then方法的返回值
 
 
      -->
@@ -50,22 +56,61 @@
     <script>
         MyPromise.prototype.then = function (onResolved, onRejected) {
             const that = this;
+            let mypromise = null;
 
             if (that.status === 'resolved') {
                 // 如果是成功状态
-                setTimeout(() => {
-                    onResolved(that.value)
-                }, 0);
+                mypromise = new MyPromise((resolve, reject) => {
+                    setTimeout(() => {
+                        // 2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
+                        try {
+                            const promise = onResolved(that.value)
+                            if (promise instanceof MyPromise) {
+                                // 说明 是 mypromise 对象
+                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
+                            } else {
+                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
+                                resolve(promise) // 返回值看上一个then的返回值
+                            }
+                        } catch (e) {
+                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
+                            reject(e)
+                        }
+                    }, 0);
+                })
             } else if (that.status === 'rejected') {
                 // 如果是失败状态
-                setTimeout(() => {
-                    onRejected(that.value)
-                }, 0);
+                mypromise = new MyPromise((resolve, reject) => {
+                    setTimeout(() => {
+                        // 2. 如果上一个then方法，返回的是一个promise 对象，那么就看promise的状态
+                        try {
+                            const promise = onRejected(that.value)
+                            if (promise instanceof MyPromise) {
+                                // 说明 是 mypromise 对象
+                                promise.then(resolve, reject) // 调用 方法将 mypromise 的状态改为 成功 / 失败
+                            } else {
+                                // 1. 如果上一个then方法，没有返回值，那么默认是成功状态
+                                resolve(promise) // 返回值看上一个then的返回值
+                            }
+                        } catch (e) {
+                            // 3. 如果上一个then方法抛出异常，那么就是 失败状态
+                            reject(e)
+                        }
+                    }, 0);
+                })
             } else if (that.status === 'pending') {
                 // 如果是初始化状态
-                this.callBacks.onResolved = onResolved;
-                this.callBacks.onRejected = onRejected;
+                mypromise = new MyPromise((resolve, reject) => {
+                    /* 
+                        由于一上来是 pending 状态，会执行这里的操作，但是他既没有执行 resolve 也没有执行 reject ，那么永远就都是pending
+                        状态，第二个then 就永远不会触发
+                     */
+                    that.callBacks.onResolved = onResolved;
+                    that.callBacks.onRejected = onRejected;
+                })
             }
+
+            return mypromise // 为了实现链式调用
         }
 
         function MyPromise(exec) {
@@ -114,10 +159,14 @@
                 resolve(111)
             }, 2000);
         })
-        mypromise.then((value) => {
-            console.log(value)
-        })
-        //  console.log(mypromise)
+        mypromise
+            .then((value) => {
+                console.log(value)
+                return 111
+            })
+            .then(value => {
+                console.log(value)
+            })
     </script>
 </body>
 
