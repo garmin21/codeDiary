@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script type="text/babel">
+        /* 
+        分析 setState 是否是异步?
+     */
+
+
+    class Button extends React.Component{
+
+        add = () => {
+            this.props.add(1)
+        }
+        render(){
+            return (
+                <div>
+                    <button onClick={this.add}>+</button>
+                </div>
+            )
+        }
+    }
+
+     class Count extends React.Component{
+         state = {
+             number : 0
+         }
+
+         add = (props) => {
+            let {number} = this.state;
+            // this.setState(obj) 更新，多次更新会合并，最后一次生效
+            //  this.setState({
+            //      number : ++number
+            //  })
+            // this.setState(obj, callback)  callback会在界面更新后调用
+            //  this.setState({
+            //      number : ++number
+            //  },() =>{
+            //     //  先执行的callback ，这里可以拿到最新的 state
+            //      alert(number)
+            //  })
+            // this.setState(callback) callback 更新，多次更新会依次执行
+            
+         }
+
+        //  componentDidMount(){
+        //     this.setState((prevState,props) => {
+        //         console.log(prevState,props)
+        //         return prevState.number + props
+        //     })
+        //  }
+
+         render(){
+             const {number} = this.state;
+             return (
+                 <div>
+                    <p>{number}</p>
+                    <Button add={this.add}>+</Button>
+                 </div>
+             )
+         }
+     }
+
+     ReactDOM.render(<Count />,document.getElementById('app'))
+    </script>
+</body>
+
+</html>
