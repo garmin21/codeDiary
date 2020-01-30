@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>抽奖</title>
+    <style>
+        html,
+        body {
+            background-color: #3c3c3c;
+        }
+
+        .warpper {
+            width: 320px;
+            height: 320px;
+            margin: 150px auto 0px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 40px;
+        }
+
+        .divst {
+            padding: 0;
+            margin: 0;
+            width: 324px;
+            margin-right: -4px;
+            height: 324px;
+            margin-bottom: -4px;
+            position: relative;
+        }
+
+        .divst .row div,
+        .divst .row1 div,
+        .divst .row2 div,
+        .divst .row3 div {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: blanchedalmond;
+            margin-right: 1px;
+            margin-bottom: 1px;
+        }
+
+        .divst .row div {
+            float: left;
+        }
+
+        .divst .row1 {
+            float: right;
+        }
+
+        .divst .row2 div {
+
+            float: right;
+        }
+
+        a {
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            background-color: pink;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -50px;
+            margin-top: -40px;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+        }
+
+        a:hover {
+            background-color: #3e8e41
+        }
+
+        a:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+        .hove {
+            background-color: rebeccapurple;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+
+        需求：做一个抽奖活动页面
+        使用技术： html + css + js
+
+
+        总宽为400
+            40 padding
+            320 / 4 = 80px
+
+
+     -->
+    <div class="warpper">
+        <div class="divst">
+            <div class="row">
+                <div class="item">1</div>
+                <div class="item">2</div>
+                <div class="item">3</div>
+                <div class="item">4</div>
+            </div>
+            <div class="row1">
+                <div class="item">5</div>
+                <div class="item">6</div>
+                <div class="item">7</div>
+            </div>
+            <div class="row3">
+                <div class="item">12</div>
+                <div class="item">11</div>
+            </div>
+            <div class="row2">
+                <div class="item">8</div>
+                <div class="item">9</div>
+                <div class="item">10</div>
+            </div>
+        </div>
+        <a href="javascript:;">点击抽奖</a>
+    </div>
+
+    <script>
+        /* 分析需求:
+                1. 点击按钮，小方块运动
+                    2. 过渡在每一个小方块上停留 1s 
+         */
+
+        // var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+        // var list = document.getElementsByClassName('item');
+        // list = Array.from(list)
+        // var arr = list.slice(7,9)
+        // delete list[7]
+        // delete list[8]
+        // list.push(arr[1],arr[0])
+
+        // var act = document.querySelector('a'); // 获取 a 标签
+        // var dsj = 20;
+        // var intarId = null;
+
+        // act.addEventListener('click', function () {
+        //     /* 开始 */
+        //     /* 在一段时间内我要在所有小方块中添加类，和删除类 */
+        //     var i = 0;
+        //     // intarId = setTimeout(() => {
+        //     //     if(i > 11){
+        //     //         i = 0
+        //     //     }
+        //     //     i++;
+        //     //     console.log(i)
+        //     //     list[i].classList.add('hove');
+        //     // }, dsj)
+
+        //     intarId = setInterval(() => {
+
+        //         // i++;
+        //         console.log(list[i++])
+        //         if (i > 11) {
+        //             clearInterval(intarId)
+        //             i = 0;
+        //         }
+        //         // list[i].classList.add('hove');
+        //     }, dsj)
+
+        // })
+    </script>
+</body>
+
+</html>
