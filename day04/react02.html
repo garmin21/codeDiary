@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .show {
+            height: 50px;
+            opacity: 1;
+            transition: all .5s linear;
+        }
+
+        .hide {
+            height: 0px;
+            opacity: 0;
+            transition: all .5s linear;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script src="../reactjs/react-transition-group.min.js"></script>
+    <script type="text/babel">
+
+        class App extends React.Component{
+
+            state = {
+                isHandover : true
+            }
+
+            Handover = () => {
+                const {isHandover} = this.state
+                this.setState({
+                    isHandover : ! isHandover
+                })
+            }
+            render(){
+                const { isHandover } = this.state
+                return(
+                    <div>
+                        <p className={isHandover ? 'show' : 'hide'}>你看不看得见我</p>
+                        <button onClick={this.Handover}>{isHandover ? '隐藏': '显示'}</button>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<App />,document.getElementById('app'))
+
+        /* 
+            react 中使用动画，
+                1. 结合css 3 关键帧和过渡动画
+        
+         */
+    </script>
+</body>
+
+</html>
