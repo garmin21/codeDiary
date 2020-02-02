@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script src="../reactjs/react-transition-group.min.js"></script>
+
+    <!-- 
+         在使用 React服务端渲染框架Next.js时，使用了 import Router from 'next/router'
+         编程式路由，发现跳转不了，也不知道为啥
+
+     -->
+    <script type="text/babel">
+
+        import React from 'react'
+        import Router from 'next/router'
+
+        const Login = () => (
+            
+            <form action="" method="POST" role="form">
+                <legend>Form title</legend>
+            
+                <div class="form-group">
+                    <label for="">label</label>
+                    <input type="text" class="form-control" id="" placeholder="Input field" />
+                </div>
+            
+                <button type="submit" class="btn btn-primary" onClick={() => {Router.push('/')}}>返回首页</button>
+                
+            </form>
+            
+        )
+
+
+        export default Login
+        
+
+    </script>
+</body>
+
+</html>

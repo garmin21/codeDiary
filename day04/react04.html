@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box-enter {
+            height: 50px;
+            opacity: 1;
+            transition: all .5s linear;
+        }
+
+        .box-enter-active {
+            height: 50px;
+            opacity: 1;
+            transition: all .5s linear;
+        }
+
+        .box-enter-done {
+            height: 50px;
+            opacity: 1;
+            transition: all .5s linear;
+        }
+
+        .box-exit {
+            height: 0px;
+            opacity: 0;
+            transition: all .5s linear;
+        }
+
+        .box-exit-active {
+            height: 0px;
+            opacity: 0;
+            transition: all .5s linear;
+        }
+
+        .box-exit-done {
+            height: 0px;
+            opacity: 0;
+            transition: all .5s linear;
+        }
+
+        /* 
+        
+            xxxx-enter{} 入场之前 css 样式
+            xxxx-enter-active{}入场到结束之前的的CSS样式
+            xxxx-enter-done {} 入场结束时的CSS样式
+
+            xxxx-exit{} 出场之前时的CSS样式
+            xxxx-exit-active{} 出场到结束之前的时的CSS样式
+            xxxx-exit-done{} 出场结束时的CSS样式
+         */
+    </style>
+</head>
+
+<body>
+
+
+    <div id="app"></div>
+
+    <script src="../reactjs/react.development.js"></script>
+    <script src="../reactjs/react-dom.development.js"></script>
+    <script src="../reactjs/babel.min.js"></script>
+    <script src="../reactjs/react-transition-group.min.js"></script>
+    <script type="text/babel">
+
+
+        import React, { Component } from "react";
+
+        import { CSSTransition, TransitionGroup } from "react-transition-group";
+
+        import "./index.css";
+
+        class App extends Component {
+        state = {
+            data: [
+            { text: "你看不看得见我" },
+            { text: "哈哈哈哈哈" },
+            { text: "查差擦汗擦汗" }
+            ],
+            text: "",
+            isHandover: true
+        };
+
+        gitInfo = e => {
+            this.setState({
+            text: e.target.value
+            });
+        };
+
+        add = () => {
+            const { text, data } = this.state;
+            this.setState({
+            data: [{ text: text }, ...data]
+            });
+        };
+
+        render() {
+            const { data, isHandover } = this.state;
+            return (
+            <div>
+                <input onChange={this.gitInfo} />
+                <button onClick={this.add}>点击添加</button>
+                {/* <TransitionGroup>
+                    <CSSTransition in={isHandover} timeout={10000} classNames="box">
+                    {data.map((item, index) => (
+                        <p key={index}>{item.text}</p>
+                    ))}
+                    </CSSTransition>
+                </TransitionGroup> */}
+            </div>
+            );
+        }
+        }
+
+        export default App;
+
+
+        /* 
+            react 中使用动画，
+                2. 借助 react-transition-group 库
+                 执行一组动画吃皮
+        
+         */
+    </script>
+</body>
+
+</html>
