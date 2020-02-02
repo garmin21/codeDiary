@@ -2,9 +2,9 @@
 
 ### 待解决问题
 
-- [x] next.js-Router 编程式路由 
-- [x] TransitionGroup 动画 
-- [x] this.setState(callback)
+- [] next.js-Router 编程式路由 
+- [] TransitionGroup 动画 
+- [] this.setState(callback)
 
 ### react 案例
 
