@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+            分析一下：递归遍历思路
+
+            [] 的深拷贝
+            {} 的深拷贝
+            1. 判断数据类型
+            2. 根据数据类型来创建对应的数据结构
+            3. 遍历传入的数据结构，将其递归复制,最后返回
+
+         */
+
+        const isTypeOf = (props) => Object.prototype.toString.call(props).slice(8, -1);
+
+        const Clone = (obj) => {
+            if (isTypeOf(obj) === 'Array') {
+                var res = []
+            } else if (isTypeOf(obj) === 'Object') {
+                var res = {}
+            } else {
+                return obj
+            }
+
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    res[key] = Clone(obj[key]);
+
+                }
+            }
+            return res;
+        }
+
+        // const kkk = {
+        //     data : [1,2,3,4],
+        //     xiaohon: {
+        //         name : 'xxx',
+        //         age : 18
+        //     },
+        //     name : 'kkk',
+        //     age : 22
+        // }
+
+        // const yyy = Clone(kkk)
+
+        // kkk.sex = '男';
+        // kkk.xiaohon.sex = '女'
+        // console.log(kkk)
+
+
+        // console.log(yyy)
+
+        // const arr = [[1,2,3],'xxxx',10000,{name: 'xiaohon',age : 18}]
+
+        // const list = Clone(arr)
+
+        // arr.push('你好i')
+
+        // console.log(arr)
+
+        // console.log(list)
+    </script>
+</body>
+
+</html>

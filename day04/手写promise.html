@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+            1. 完成基本的promise 基础构建
+            2. 完成then方法的基础构建
+            3. 完成then 的链式调用
+            4. 完成封装
+         */
+
+        function handel(value, fn, reslove, reject) {
+            try {
+
+                const result = fn(value)
+                if (result instanceof Mypromise) {
+                    // 是一个 promise 对象
+                    result.then(reslove, reject)
+                } else {
+                    reslove(result)
+                }
+            } catch (e) {
+                reject(e)
+            }
+        }
+
+        Mypromise.prototype.then = function (onReslove, onReject) {
+
+            onReslove = onReslove ? onReslove : (value) => value;
+            onReject = onReject ? onReject : (reason) => {
+                 throw reason
+            }
+
+            let mypromise = null;
+            const _this = this; // 缓存this
+            if (_this.state === 'resloved') {
+                // 成功
+                mypromise = new Mypromise((reslove, reject) => {
+                    setTimeout(() => {
+                        handel(_this.value, onReslove, reslove, reject)
+                    }, 0)
+                })
+            } else if (_this.state === 'rejected') {
+                // 失败
+                mypromise = new Mypromise((reslove, reject) => {
+                    setTimeout(() => {
+                        handel(_this.value, onReject, reslove, reject)
+                    }, 0)
+                })
+            } else {
+
+                mypromise = new Mypromise((reslove, reject) => {
+                    _this.callbacks.onReslove = function () {
+                        handel(_this.value, onReslove, reslove, reject)
+                    };
+
+                    _this.callbacks.onReject = function () {
+                        handel(_this.value, onReject, reslove, reject)
+                    };
+
+                })
+                // 初始化
+
+
+            }
+
+            return mypromise
+        }
+
+        Mypromise.prototype.catch = function(onReject){
+            return this.then(undefined,onReject)
+        }
+
+        function Mypromise(exec) {
+            this.state = 'pending'
+            this.value = undefined;
+            this.callbacks = {} // 回调函数的数据结构
+            const _this = this; // 缓存this
+
+
+
+            function reslove(value) {
+                if (_this.state === 'pending') {
+                    _this.state = 'resloved'
+                    _this.value = value;
+
+                    if (_this.callbacks.onReslove) {
+                        setTimeout(() => {
+                            _this.callbacks.onReslove(value)
+                        }, 0)
+                    }
+                }
+            }
+
+            function reject(reason) {
+                if (_this.state === 'pending') {
+                    _this.state = 'rejected'
+                    _this.value = reason;
+                    if (_this.callbacks.onReject) {
+                        setTimeout(() => {
+                            _this.callbacks.onReject(reason)
+                        }, 0)
+                    }
+                }
+            }
+
+            try {
+                exec(reslove, reject)
+            } catch (e) {
+                reject(e)
+            }
+        }
+
+        const p = new Mypromise((reslove, reject) => {
+            setTimeout(() => {
+                // reslove(111)
+                reject(222)
+            }, 1000)
+        })
+
+
+        p.then((value) => {
+            console.log(value)
+        }, (reason) => {
+            console.log(reason)
+            throw Error('xxxx')
+        }).catch((reason) => {
+            console.log(reason)
+        })
+    </script>
+</body>
+
+</html>
