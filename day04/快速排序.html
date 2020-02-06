@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+            将一段 数值 组成的数组，斌且打乱的顺序，快速排序成
+                找基准值，分左边排序，右边找基准值在排
+         */
+
+        var arr = [2, 5, 3, 7, 8, 2, 5, 7, 8, 3, 2, 54, 76, 6, 23, 78, 3, 2, 621, 89, 90, 2, 3, 52, 35, 65, 78, 57, 45,
+            6, 4
+        ];
+
+
+        // Array.prototype.fastRow = function(arr){
+
+        //     if(arr.length <= 1) return arr
+
+        //     let index = Math.floor(arr.length / 2);
+
+        //     let elem = arr.splice(index,1)[0]
+
+
+        //     let leftArr = [];
+        //     let rightArr = [];
+
+        //     for(var i = 0; i<arr.length; i++){
+        //         /* 
+        //             大的放左边，小的放右边
+        //          */
+        //          if(arr[i] > elem){
+        //             leftArr.push(arr[i])
+        //          }else{
+        //             rightArr.push(arr[i])
+        //          }
+        //     }
+
+        //     const newLeftArr = arr.fastRow(leftArr);
+        //     const newRightArr = arr.fastRow(rightArr);
+
+        //     const newArr = newLeftArr.concat([elem],newRightArr);
+
+
+        //     return newArr
+        // }
+
+        // arr.fastRow()
+
+
+        const startTime = performance.now();
+
+        function fastRow(arr) {
+            if (arr.length <= 1) return arr
+
+            let index = Math.floor(arr.length / 2);
+
+            let elem = arr.splice(index, 1)[0]
+
+
+            let leftArr = [];
+            let rightArr = [];
+
+            for (var i = 0; i < arr.length; i++) {
+                /* 
+                    大的放左边，小的放右边
+                 */
+                if (arr[i] > elem) {
+                    leftArr.push(arr[i])
+                } else {
+                    rightArr.push(arr[i])
+                }
+            }
+
+            const newLeftArr = fastRow(leftArr);
+            const newRightArr = fastRow(rightArr);
+
+            const newArr = newLeftArr.concat([elem], newRightArr);
+
+            return newArr
+        }
+
+        const engTime = performance.now();
+
+        console.log(fastRow(arr))
+        console.log(engTime - startTime) // 接近于0
+    </script>
+</body>
+
+</html>
