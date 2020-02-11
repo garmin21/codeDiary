@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简易计算机</title>
+    <script src="../vuejs//vue-2.4.0.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <p>{{msg | msgForm}}</p>
+    </div>
+
+    <script>
+        /* 全局过滤器，任何vm实例，都可以使用 */
+        Vue.filter('msgForm', (data) => {
+            return data + '123'
+
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '我是一个帅气的人'
+            }
+        })
+    </script>
+
+</body>
+
+</html>
