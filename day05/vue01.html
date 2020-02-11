@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue</title>
+    <script src="../vuejs//vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="done">浪起来</button>&nbsp;&nbsp;<button @click="stop">低调</button>
+        <p>{{msg}}</p>
+    </div>
+
+
+    <script>
+        /* 需求： 实现文字跑马灯效果 */
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '一飞冲天，傲视群雄，莫敢不服',
+                interValId: null,
+            },
+            methods: {
+                done() {
+                    // 注意，一个问题是，多次点击，会开启多个定时器，所以我们需要，保证定时器只能开启一次
+                    // 又出现问题时，第二次点击时，不动了
+                    /* 
+                        分析原因：
+                        第一次点击，interValId 为null ,会执行定时器。此时 interValId 有值了，当我点击stop 停止后， interValId 还是有值的，所我们必须重置 interValId 
+                     */
+                    if (this.interValId !== null) return
+                    this.interValId = setInterval(() => {
+                        // 1. 拿到 Msg
+                        let msg = this.msg;
+                        // 2. 截取前面的第一个字符
+                        let staStr = msg.slice(0, 1);
+                        // 3. 截取剩下的字符
+                        let endStr = msg.slice(1);
+                        // 拼接
+                        this.msg = endStr + staStr;
+                    }, 40)
+
+                },
+                stop() {
+                    clearInterval(this.interValId)
+                    // 重置 interValId
+                    this.interValId = null
+                }
+            }
+        })
+        // 4. 使用定时器
+    </script>
+</body>
+
+</html>
