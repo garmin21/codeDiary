@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简易计算机</title>
+    <script src="../vuejs//vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <fieldset>
+            <legend>搜索，排序</legend>
+            <input type="text" v-model="name"> <!-- 使用计算属性 -->
+            <ul>
+                <li v-for="item of personarr" key="item.id">
+                    id:{{item.id}}-----name:{{item.name}}-----age:{{item.age}}-----desc:{{item.desc}}-----
+                </li>
+            </ul>
+            <button @click="state=1">升序</button>
+            <button @click="state=2">降序</button>
+            <button @click="state=3">原来顺序</button>
+        </fieldset>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                state: 0, // 默认是0,如果是0就是原来顺序,如果是1则是升序,如果是2则是降序
+                person: [{
+                        id: 1,
+                        name: '卡卡西',
+                        age: 18,
+                        desc: '他是一个很帅的人'
+                    },
+                    {
+                        id: 2,
+                        name: '非常6+1',
+                        age: 20,
+                        desc: '爱情很苦'
+                    },
+                    {
+                        id: 3,
+                        name: '鲁班',
+                        age: 90,
+                        desc: '天才'
+                    },
+                    {
+                        id: 4,
+                        name: '程咬金',
+                        age: 18,
+                        desc: '咱家很骚'
+                    },
+                    {
+                        id: 5,
+                        name: '貂蝉',
+                        age: 18,
+                        desc: '快来咬我呀'
+                    }
+                ],
+            },
+            computed: {
+                personarr() {
+                    const {
+                        name,
+                        state
+                    } = this
+                    let arr = this.person.filter(item => item.name.indexOf(name) !== -1);
+                    if (state !== 0) {
+                        // 进行排序
+                        arr.sort((p1, p2) => {
+                            return state === 2 ? p2.age - p1.age : p1.age - p2.age
+                        })
+                    }
+
+                    return arr
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
