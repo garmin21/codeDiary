@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简易计算机</title>
+    <script src="../vuejs//vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="n1">
+        <select v-model="opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" v-model="n2">
+        <button @click="calc">=</button>
+        <input type="text" :value="result">
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                n1: 0,
+                n2: 0,
+                result: 0,
+                opt: '+',
+                arr: [1, 2, 3]
+
+
+            },
+            methods: {
+                // calc() { 方式一
+                //     console.log(typeof this.n1)
+                //     console.log(this.arr)
+                //     switch (this.opt) {
+                //         case '+':
+                //             this.result = parseInt(this.n1) + parseInt(this.n2);
+                //             break;
+                //         case '-':
+                //             this.result = parseInt(this.n1) - parseInt(this.n2);
+                //             break;
+                //         case '*':
+                //             this.result = parseInt(this.n1) * parseInt(this.n2);
+                //             break;
+                //         case '/':
+                //             this.result = parseInt(this.n1) / parseInt(this.n2);
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                // }
+
+                calc() { // 方式二， 不推荐
+                    let str = 'parseInt(this.n1)' + this.opt + 'parseInt(this.n2)';
+                    this.result = eval(str)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
