@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简易计算机</title>
+    <script src="../vuejs//vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <fieldset>
+            <legend>添加，删除，修改操作</legend>
+            <button @click="add">添加数据</button><br>
+            姓名<input type="text" name="name" v-model="name"><br>
+            年龄<input type="text" name="age" v-model="age"><br>
+            描述<input type="text" name="desc" v-model="desc"><br>
+            <ul>
+                <li v-for="item of person" key="item.id">
+                    id:{{item.id}}---name:{{item.name}}----age:{{item.age}}----desc:{{item.desc}} <button
+                        @click="remove(item.id)">删除</button><button @click="uptede(item.id)">修改</button></li>
+            </ul>
+        </fieldset>
+    </div>
+
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                name: "",
+                age: "",
+                desc: "",
+                person: [{
+                        id: 1,
+                        name: '卡卡西',
+                        age: 18,
+                        desc: '他是一个很帅的人'
+                    },
+                    {
+                        id: 2,
+                        name: '非常6+1',
+                        age: 20,
+                        desc: '爱情很苦'
+                    },
+                    {
+                        id: 3,
+                        name: '鲁班',
+                        age: 90,
+                        desc: '天才'
+                    },
+                    {
+                        id: 4,
+                        name: '程咬金',
+                        age: 18,
+                        desc: '咱家很骚'
+                    },
+                    {
+                        id: 5,
+                        name: '貂蝉',
+                        age: 18,
+                        desc: '快来咬我呀'
+                    }
+                ],
+
+            },
+            methods: {
+                add() {
+                    let {
+                        id
+                    } = this.person[this.person.length - 1]
+                        ++id;
+                    let obj = {
+                        id,
+                        name: this.name,
+                        age: this.age,
+                        desc: this.desc
+                    }
+                    this.person.push(obj)
+                },
+                remove(id){
+                    this.person = this.person.filter(item => item.id !== id);
+                },
+                uptede(id){
+                    this.person = this.person.map(item => {
+                        if(item.id === id){
+                            item.name = this.name;
+                            item.age = this.age;
+                            item.desc = this.desc;
+                        }
+                        return item
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
