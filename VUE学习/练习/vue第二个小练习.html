@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 1、点击按钮后弹出一些东西-->
+        <button v-on:click="Eject">点击弹出</button>
+
+        <!--  2、表单控件和 p 标签进行相互绑定  -->
+        <p><input type="text" v-model="value">{{ value }}</p>
+
+        <!--  3、keydown事件不是每一次都触发的而是必须按下某个键才出发对应的事件 -->
+        <p><input type="text" v-model="age" v-on:keydown.enter="input">{{ age }}</p>
+    </div>
+</body>
+<script>
+new Vue({
+    el : '#app',
+    data : {
+        value : '李嘉明',
+        age : 1,
+    },
+    methods : {
+        Eject : function(){
+            alert('你好世界');
+        },
+        input : function(){
+            this.age = '欢迎来到中国大陆'
+        }
+    },
+
+
+});
+
+</script>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <!-- 双大括号可以去写js代码，还可以使用表达式 -->
+        <h1>{{ reverseMessage() + '123' }}</h1>
+        <!-- 指令渲染 a 标签 -->
+        <a v-bind:href="link" target="">baidu</a>
+    </div>
+
+
+
+
+    <script>
+        // 注意这里必须大写
+    var app = new Vue({
+        // 通过el 控制id为app的盒子
+        el :"#app",
+        data :{
+            link: 'https://www.baidu.com'
+        },
+        // 定义函数集合的对象
+        methods:{
+            reverseMessage : function(){
+                return '我爱你';
+            },
+        }
+    })
+    
+    </script>
+</body>
+</html>

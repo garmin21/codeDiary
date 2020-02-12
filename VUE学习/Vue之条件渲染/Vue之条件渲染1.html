@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- template标签不会渲染到我们的dom节点上 -->
+        <template v-if="show">
+            <p>哈喽，你好</p>
+            <p>我叫谢谢谢谢</p>
+        </template>
+        <!-- v-show :-->
+        <p v-show="show">我是v-show条件渲染的元素</p>
+    </div>
+
+
+    <script>
+     new Vue({
+         el : '#app',
+         data : {
+             show : false,
+         }
+     });
+    
+    </script>
+
+
+
+<!-- 
+    总结：v-show 和 v-if 的区别？
+
+        v-if ：整个dom节点都会被干掉
+        v-show ： 只是在元素上添加了一条 css样式 dsiplay: none
+
+
+ -->
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- 基于 Vue 的 Ajax -->
+    <!-- <script src="./vue-resource-1.3.4.js"></script> -->
+</head>
+
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for="">
+                    Name:
+                    <!-- 数据双向绑定 -->
+                    <input type="text" class="form-control" v-model="name" @keydown.enter="add">
+                </label>
+                <!-- 点击触发事件add -->
+                <input type="button" value="添加" class="btn btn-primary" @click="add">
+            </div>
+        </div>
+        <!-- 表格 -->
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>ctime</th>
+                    <th>operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.ctime | dataMydate }}</td>
+                    <td>
+                        <a href="#" @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+        Vue.filter('dataMydate', function (datestring) {
+            let date = new Date(datestring);
+
+            const y = date.getFullYear();
+            const m = (date.getMonth() + 1).toString().padStart(2, '0');
+            const d = date.getDate().toString().padStart(2, '0');
+
+            const h = date.getHours().toString().padStart(2, '0');
+            const f = date.getMinutes().toString().padStart(2, '0');
+            const s = date.getSeconds().toString().padStart(2, '0');
+
+            // return y + '-' + m + '-' + d + '/' + h + '-' + f + '-' + s;
+            return `${y} - ${m} - ${d} / ${h} : ${f} : ${s}`;
+        });
+
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                id: '',
+                list: [
+                    { id: 1, name: '奔驰', ctime: new Date() },
+                ]
+            },
+            methods: {
+                add() {
+                    var dog = { id: this.id += 1, name: this.name, ctime: new Date(), }
+                    // 如果用户没有输入数据，return 结束程序
+                    if (this.name === '') return;
+
+                    this.list.push(dog);
+                    // 清空表单控件中的内容
+                    this.name = '';
+
+
+                },
+                del(id) {
+                    // 分析
+                    // 1、如何根据id 找到要删除的这一项索引
+                    // 2、找到索引了，直接调用数组的 splice 方法.
+
+                    this.list.some((item, i) => {
+                        if (item.id === id) {
+                            this.list.splice(i, 1);
+                            // 在数组some方法中，如果 return true,就会立即终止这个数组的后续循环
+                            return true;
+                        }
+                    });
+
+                    // findIndex()方法
+                }
+            },
+            updated() {
+                // 表示 我们所添加的数据并没有 实时的添加到服务器中去，而是直接往vue创建的实例中添加的数据
+                console.log(this.list)
+            }
+        });
+
+    </script>
+    <script>
+        function showInfoDome(data) {
+            // 将服务器传过来的对象转为数组
+            var arr = Array.from(data.message)
+            // 删除最后一个数组中最后一个对象并返回
+            var end = arr.pop();
+            // 拿到 id 并赋值给 vm实例
+            vm.id = end.id;
+
+
+            if (data.stutas === 0) {
+                vm.list = data.message;
+            } else {
+                alert('获取数据失败!')
+            }
+        }
+
+    </script>
+    <script src="http://127.0.0.1:3000/getjsonp?callback=showInfoDome"></script>
+</body>
+
+</html>

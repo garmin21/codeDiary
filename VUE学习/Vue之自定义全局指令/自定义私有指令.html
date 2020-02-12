@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1 v-color="'pink'" v-fontweight="'lighter'">我是世界第一无敌大帅哥</h1>
+    </div>
+
+
+    <script>
+    new Vue({
+        el : '#app',
+        data : {
+        },
+        // 自定义局部组件
+        directives : {
+           /**
+            组件名：{
+                样式使用 bind ,
+                 
+            }
+           
+           */
+            color : {
+                bind(el,bing) {
+                    el.style.color = bing.value;
+                }
+            },
+            'fontweight' : {
+                bind(el,bing) {
+                    el.style.fontWeight = bing.value;
+                },
+            }
+        }
+
+    });
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1、点击列表中的某个 li 改变其原有数据，填充新的数据 -->
+    <!-- 建议尽可能在使用 v-for 时提供 key -->
+    <div id="app">
+      <ol>
+          <li v-for="(item, index) in arr" @click="chang(index)">
+              {{ item.text }} &nbsp;&nbsp;&nbsp; 
+              <span>评分:{{ item.rate }}</span> | {{ index }}
+          </li>
+      </ol>
+    </div>
+
+    <script>
+     new Vue({
+         el : '#app',
+         data : {
+             arr : [
+                 {text : '我不是药神',rate:7.2},
+                 {text : '侏罗纪公园2',rate:9.2},
+                 {text : '驯龙高手3',rate:3.2}
+             ],
+         },
+         methods : {
+            chang : function(i){
+                // 拷贝其被点击数组
+                let shuzu = this.arr.concat();
+                // 给拷贝的副本添加数据
+                shuzu[i] = {
+                    text : '鲁滨逊历险记',
+                    rate:9.9,
+                }
+                // 将对象赋值给数组
+                this.arr = shuzu;
+            }
+         }
+     });
+    
+    </script>
+
+
+<!-- 讨论一下为什么：这样写不对呢？ 
+
+     methods : {
+            chang : function(i){
+               this.arr[i] = {
+                    text : '鲁滨逊历险记',
+                    rate:9.9,
+               }
+
+               console.log(this.arr);
+            }
+         }
+
+
+         答：在Vue中直接的去改变一个数组的数据，是无法被检测到的，
+
+         那我们如何改变呢?
+
+
+         答：数组是引用值，数组的下标其实就是内存地址，只要内存地址改变了，数组自然就改变了,所以我们可以给它一个新数组
+-->
+</body>
+</html>

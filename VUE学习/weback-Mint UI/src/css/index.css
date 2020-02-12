@@ -1,0 +1,26 @@
+/* li{
+    list-style: none;
+}
+
+body{
+    height: 2000px;
+}
+span{
+   font-size: 200px;
+   color: green;
+}
+
+div{
+  width: 1000px;
+  height: 500px;
+}
+
+.box1{
+    background: url('../images/马.png') no-repeat;
+}
+.box2{
+    background: url('../images/马.jpg') no-repeat;
+} */
+.myred{
+    color: red;
+}

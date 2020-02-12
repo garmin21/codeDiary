@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 绑定事件也可以等于一个函数执行，可以传参,如果需要传入事件对象可以使用$event -->
+        <!-- <button v-on:click = "maxmun">自增</button> -->
+        <button v-on:click = "maxmun(10,$event)">自增</button>
+        <p>{{ cont }}</p>
+        <!-- 输出当前鼠标的x和y值 -->
+        <p v-on:mousemove="updata">坐标点X{{ x }}/坐标点Y{{ y }}</p>
+    </div>
+
+    <script>
+    new Vue({
+        el : '#app',
+        data : {
+            cont : 1,
+            x : 0,
+            y : 0,
+        },
+        methods : {
+            maxmun : function(spte,evnet){
+                // this.cont++;
+                console.log(event);
+                this.cont+= spte;
+            },
+            updata : function(event){
+                this.x = event.clientX;
+                this.y = event.clientY;
+            }
+        }
+    });
+    
+    </script>
+</body>
+</html>

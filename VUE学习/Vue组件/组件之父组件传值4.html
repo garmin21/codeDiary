@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>  
+
+<!-- 1、父组件向子组件传值 -->
+        <div id="app">
+            <child message="hello"></child>
+        </div>
+        <br>
+        <script>
+
+            Vue.component('child', {
+            props: ['message'],
+            template: '<span>{{ message }}</span>'
+            
+            });
+            new Vue({
+                el: '#app',
+                });
+
+        </script>
+<!-- 2\动态绑定数据 -->
+        <div id="app2">
+            <div>
+                <input v-model="parentMsg">
+                <br>
+                <child v-bind:message="parentMsg"></child>
+            </div>
+        </div>
+        <script>
+
+            Vue.component('child', {
+            props: ['message'],
+            template: '<span>{{ message }}</span>'
+            
+            });
+            new Vue({
+                el: '#app2',
+                data : {
+                    parentMsg : 'haha'
+                }
+                });
+    
+        </script>
+<!--3\ v-for 组件渲染 v-bind动态绑定-->
+        <div id="app3">
+            <ol>
+                <child v-for="item of arr" :todo="item"></child>
+            </ol>
+        </div>
+        <script>
+        Vue.component('child', {
+            props : ['todo'],
+            template : '<li>{{ todo.text }}</li>'
+        })
+        new Vue({
+            el : '#app3',
+            data : {
+                arr : [
+                    {text : 'gagaga'},
+                    {text : 'gagaga'},
+                    {text : 'gagaga'},
+                ]
+            }
+        });
+        </script>
+
+<!-- 当prop 增多，使得模板的维护变的困难，我们可以重构组件 -->
+
+        <div id="blog-post-demo">
+                <blog-post
+                v-for="post in posts"
+                v-bind:key="post.id"
+                v-bind:post="post"
+            ></blog-post>
+        </div>
+
+
+        <script>
+            Vue.component('blog-post', {
+        props: ['post'],
+        template: `
+            <div class="blog-post">
+            <h3>{{ post.title }}</h3>
+            <div v-html="post.content"></div>
+            <div v-html="post.text></div>
+            </div>
+        `
+        })
+
+        new Vue({
+            el: '#blog-post-demo',
+            data: {
+            posts: [
+                { id: 1, title: 'My journey with Vue',content : '<p>love you me</p>',text : '<p>我是中国人</p>'},
+                { id: 2, title: 'Blogging with Vue' ,content : '<p>love you me</p>',text : '<p>我是中国人</p>'},
+                { id: 3, title: 'Why Vue is so fun' ,content : '<p>love you me</p>',text : '<p>我是中国人</p>'},
+            ],
+            }
+        })
+
+        </script>
+</body>
+</html>

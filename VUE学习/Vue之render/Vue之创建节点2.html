@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+       
+    </div>
+
+<!-- 创建组件的第三种方式 -->
+    <script>
+
+        var vm = {
+            render : function(creataElement){
+                // []里面代表创建文本节点
+                return creataElement('div',['hi', creataElement('p',['文本节点'])])
+            }
+        };
+        new Vue({
+            el : '#app',
+            render : function(creataElement){
+                return creataElement(vm);
+            }
+        });
+    
+    </script>
+    <!-- id为app的HTML节点被覆盖 -->
+</body>
+</html>

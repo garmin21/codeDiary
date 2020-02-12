@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <template v-for="item in arr">
+            <p>{{ item }}</p>
+            <input type="text" :key="item">
+        </template>
+        <!-- 点击按钮，倒置arr 中的数据 -->
+        <button @click="reverse">倒置</button>
+    </div>
+
+    <script>
+     new Vue({
+         el : '#app',
+         data : {
+             arr : [1,2,3],
+         },
+         methods : {
+            reverse : function(){
+                this.arr.reverse();
+            }
+         }
+     });
+    
+    </script>
+    <!-- 
+        为什么我模板中的input没有发生改变呢？
+
+
+        答： 因为这样相当于渲染了三个一模一样的input，
+
+            解决办法就是让三个 input 框不一样
+
+            让每个 input 框绑定一个不一样的值 :key = "item"
+
+
+     -->
+</body>
+</html>

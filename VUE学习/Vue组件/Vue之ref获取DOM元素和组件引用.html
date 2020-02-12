@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- ref获取 dom 节点 -->
+    <div id="app">
+        <button @click="get">获取内容</button>
+        <div ref="myname">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo provident voluptatum eius praesentium doloribus, iure exercitationem aliquid, laborum, incidunt maiores fuga vitae corporis eveniet eaque alias quis excepturi eos soluta.
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el : '#app',
+            data : {},
+            methods : {
+                get() {
+                    console.log(this.$refs.myname.innerText)
+                }
+            }
+        });
+    
+    </script>
+
+    <hr>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- ref获取 组件的引用，可以拿到组件定义的数据和方法 -->
+    <div id="app2">
+        <button @click="get">获取内容</button>
+        <login ref="tmp"></login>
+        
+    </div>
+    
+    <template id="tmp">
+        <div>
+            <h1>我是一个局部组件</h1>
+        </div>
+    </template>
+
+    
+
+    <script>
+        var zhujiang ={
+            template : '#tmp',
+            data : function(){
+                return {
+                    msg : '我是子组件的数据',
+                }
+            },
+            methods : {
+                show() {
+                    console.log('调用了子组件的方法')
+                }
+            }
+        }
+        var vm = new Vue({
+            el : '#app2',
+            data : {},
+            methods : {
+                get() {
+                    // 输出组件定义的 msg
+                    console.log(this.$refs.tmp.msg)
+                    // 调用组件定义 的方法 show
+                    this.$refs.tmp.show();
+                }
+            },
+            components : {
+                login : zhujiang
+            }
+        });
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>自定义模板创建</title>
+</head>
+<body>
+
+    <div id="app">
+       
+    </div>
+
+<!-- 创建组件的第二种方式 -->
+    <script>
+
+        var vm = Vue.component('my-jiamin', {
+            template : "<div>{{ name }}</div>",
+            data : function(){
+                return {
+                    name : '李家明',
+                }
+            }
+        });
+        new Vue({
+            el : '#app',
+            render : function(creataElement){
+                // 
+                return creataElement(vm);
+            }
+        });
+    
+    </script>
+    <!-- id为app的HTML节点被覆盖 -->
+</body>
+</html>

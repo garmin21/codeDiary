@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./Vue路由/vue-router-3.0.1.js"></script>
+
+
+    <title>Document</title>
+    <style>
+        .header{
+            color: pink;
+            background-color: aqua;
+            width: 100%;
+            height: 200px;
+        }
+        .main{
+            color: white;
+            background-color:salmon;
+            width: 100%;
+            height: 800px;
+        }
+        .footer{
+            color: gray;
+            background-color: black;
+            width: 100%;
+            height: 200px;
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- VueRouter -->
+
+
+
+    <div id="app">
+            <router-view></router-view>
+            <router-view name="main"></router-view>
+            <router-view name="footer"></router-view>
+    </div>
+
+    <script>
+        var header = {
+            template : `
+            <header class="header">
+                <h1>header</h1>
+            </header>
+            `,
+        }
+        var main = {
+            template : `
+            <main class="main">
+                <h1>main</h1>
+            </main>
+            `
+        }
+        var footer = {
+            template : `
+            <footer class="footer">
+                <h1>footer</h1>
+            </footer>
+            `,
+            
+        }
+
+         // 2. 创建一个路由对象， 当 导入 vue-router 包之后，在 window 全局对象中，就有了一个 路由的构造函数，叫做 VueRouter
+        // 在 new 路由对象的时候，可以为 构造函数，传递一个配置对象
+        var routerObj = new VueRouter({
+            // route // 这个配置对象中的 route 表示 【路由匹配规则】 的意思
+            routes : [
+                { 
+                    path: '/',
+                    components : {
+                        'default': header,
+                        'main' : main,
+                        'footer' : footer,
+
+                    }
+                },
+            ]
+        });
+
+       var vm =  new Vue({
+            el : '#app',
+            // 将路由规则对象，注册到 vm 实例上，用来监听 URL 地址的变化，然后展示对应的组件
+            router : routerObj,
+        });
+    
+    </script>
+</body>
+</html>

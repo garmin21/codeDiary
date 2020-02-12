@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- v-once 只渲染一次 -->
+        <h1 v-once>{{ name }}</h1>
+        <h2>{{ reverseMessage() }}</h2>
+
+        <!-- v-bind 指令渲染a 标签 -->
+        <a v-bind:href="link" target="">baidu</a>
+
+
+        <!-- v-html 把一个数据当做dom节点区分析 -->
+        <p v-html="html">{{ html }}</p>
+    </div>
+
+
+
+
+    <script>
+        // 注意这里必须大写
+    var app = new Vue({
+        // 通过el 控制id为app的盒子
+        el :"#app",
+        data :{
+            name : '李嘉明',
+            link : 'https://www.baidu.com',
+            html : "<a href='https://www.baidu.com'>欢迎访问百度</a> "
+        },
+        // 定义函数集合的对象,处理业务逻辑的地方
+        methods:{
+            reverseMessage : function(){
+                this.name = '嘉明';
+                return this.name;
+            },
+        }
+    })
+    
+    </script>
+</body>
+</html>

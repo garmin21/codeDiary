@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1、HTML模板很重要 -->
+    <!-- 2、双向数据绑定 v-model -->
+
+
+
+
+    <!--  -->
+    <div id="app">
+        <button @click="input">加1</button>
+        <button @click="eq">减1</button>
+        <button @click="cont2++">cont2加一</button>
+        <!-- 需求当大于5 时显示 大于5，小于5时 ，显示小于5 -->
+        <p>{{ cont }}</p>
+        <p>{{ cont2 }}</p>
+        <p>{{ returt() }} | {{ ouput }}</p>
+    </div>
+
+<!-- 当我们去点击 cont2 时 也会去触发 returt 这个函数 ？ -->
+<!-- 
+    答： 是因为我们的一个函数的特性，当我们去更新我们的页面时，就会重新的去执行，和渲染,
+        但是这就给我们造成了不必要的麻烦，vue给我们提供了一个[计算属性]用于解决这个问题
+ -->
+
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                cont : 0,
+                cont2 : 0,
+            },
+            watch : {
+                // 当我们的 cont 发生改变时，就会触发这个函数,可以在里面写异步操作
+                cont : function(val){
+                    console.log(val)
+                   
+                    var tar = this;
+                   window.setTimeout(function(){
+                    tar.cont = 0;
+                    },2000)
+                }
+            },
+            // 计算属性字段
+            computed : {
+                ouput : function(){
+                    console.log("ouput")
+                    return  this.cont > 5 ? "大于5" : "小于5";
+                }
+            },
+            methods : {
+                returt : function(){
+                    console.log("returt")
+                    return  this.cont > 5 ? "大于5" : "小于5";
+                },
+                input : function(){
+                    this.cont++;
+                },
+                eq : function(){
+                    this.cont--;
+                }
+            }
+        });
+    
+    
+    
+    </script>
+    <!-- 
+        ouput 和 returt 有什么不同？
+
+        答，由两点不同
+            1、写法不同
+                returt()函数执行
+                ouput 直接写 
+            2、页面在加载时，我们的returt 和 ouput 都会立即执行一次，
+                而我们的 cont2 就只会执行 returt 
+
+     -->
+
+
+
+
+     <!-- 
+
+        Vue 还给我们提供了 第三种方法 watch 监听某个数据
+
+      -->
+    
+</body>
+</html>

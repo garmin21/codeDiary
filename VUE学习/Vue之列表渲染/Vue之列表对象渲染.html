@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 循环对象 -->
+    <div id="app">
+      <p v-for="(item,name,index) in people">
+          <span>属性名:{{ name }}</span><br> 
+          <span>属性值:{{ item }}</span><br>
+          <span>索引:{{ index }}</span>
+     </p>
+    </div>
+
+    <script>
+     new Vue({
+         el : '#app',
+         data : {
+             people : {
+                 name : '爱华',
+                 age : 18,
+                 sex : '男',
+             }
+         }
+     });
+    
+    </script>
+    <!-- 还可以循环一个字符串，你可以去试试 -->
+</body>
+</html>

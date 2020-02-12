@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 需求1、如果你的密码大于8位了显示，如果你的密码大于0小于8就请输入一个更长的密码，小于0则请输入你的密码 -->
+    <div id="app">
+        <p v-if="password.length > 8">你的密码大于8位了</p>
+        <p v-else-if="password.length < 8 && password.length >=1">请输入一个更长的密码</p>
+        <p v-else>请输入你的密码</p>
+        <!-- 需求2、循环数组放在有序列表中，循环对象放在无序列表中 -->
+        <ol v-for="items in cate" :key="items.name">
+            <li>
+                {{ items.name }}
+                <ul v-for="value in items.sub" :key="value">
+                    <li>{{ value }}</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <!-- 
+        items in cate 
+
+        value in items.sub
+
+        你就懂了
+
+        :key只是给每个列表添加标记，显示其是不一样的
+
+
+     -->
+
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                password : "17746679676",
+                cate : [
+                    {
+                        name : 'js',
+                        sub : ['vue', 'jquery', 'html']
+                    },
+                    {
+                        name : 'os',
+                        sub : ['node', 'window', 'css']
+                    },
+                    {
+                        name : 'vs',
+                        sub : ['java', 'c#', 'c++']
+                    }
+                ]
+            }
+        });
+    
+    </script>
+</body>
+</html>

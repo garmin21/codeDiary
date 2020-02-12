@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- v-on 绑定事件 -->
+        <input type="text" name="" id="" v-on:input = "reverseMessage">
+        <h1>{{ name }}</h1>
+    </div>
+
+
+
+
+    <script>
+        // 注意这里必须大写
+    var app = new Vue({
+        // 通过el 控制id为app的盒子
+        el :"#app",
+        // 定义数据字段，里面是我们需要使用的数据
+        data :{
+            name: '李家明'
+        },
+        // 定义函数集合的对象
+        methods:{
+            reverseMessage : function(event){
+                // vue中 this 就是自己
+                this.name = event.target.value;
+                
+            },
+        }
+    })
+    
+    </script>
+</body>
+</html>

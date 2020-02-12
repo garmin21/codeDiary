@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <component-a></component-a>
+    </div>
+
+    <script>
+      new Vue({
+        el: '#app',
+        components: {
+            'component-a': {
+                template : '<div><h3>这是直接使用 {{ components }} 创建出来的组件</h3><span>123</span></div>',
+                // 不管是什么组件，data 一定是一个函数
+                data : function(){
+                // 一定要 return 一个对象
+                return {
+                    components : 'components'
+                }
+            }
+            },
+        }
+        })
+    
+    </script>
+</body>
+</html>

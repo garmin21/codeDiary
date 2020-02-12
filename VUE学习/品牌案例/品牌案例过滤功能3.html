@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+   <div id="app">
+       <div class="panel panel-primary">
+           <div class="panel-heading">
+               <h3 class="panel-title">添加品牌</h3>
+           </div>
+           <div class="panel-body form-inline">
+               <label for="">
+                   ID:
+                   <!-- 数据双向绑定 -->
+                   <input type="text" class="form-control" v-model="id">
+               </label>
+               <label for="">
+                   Name:
+                   <!-- 数据双向绑定 -->
+                   <input type="text" class="form-control" v-model="name">
+               </label>
+               <!-- 点击触发事件add -->
+               <input type="button" value="添加" class="btn btn-primary" @click="add">
+               <label for="">
+                    搜索关键字:
+                    <!-- 数据双向绑定 -->
+                    <input type="text" class="form-control" v-model="keyworys">
+                </label>
+           </div>
+       </div>
+       <!-- 表格 -->
+        <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                       <th>id</th>
+                       <th>name</th>
+                       <th>ctime</th>
+                       <th>operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 提供key值，做唯一标识 -->
+                    <!-- 
+                        现在我们定义了一个 search 方法 ，同时把所有的关键字，通过传参的形式，传替给 search 方法
+
+
+                        在 search方法中通过 for循环，把所有 符合 搜索关键字的数据，保存到一个新数组中，返回
+
+                     -->
+                    <tr v-for="item in search(keyworys)" :key="item.id">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.ctime }}</td>
+                        <td>
+                            <a href="#" @click.prevent="del(item.id)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+   </div>
+
+
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                id : '',
+                name : '',
+                keyworys : '',
+                list : [
+                    {id : 1, name : '奔驰', ctime : new Date()},
+                    {id : 2, name : '宝马', ctime : new Date()},
+                ]
+            },
+            methods : {
+                add() {
+                   var dog = {id : this.id, name : this.name, ctime : new Date(),}
+                    // 如果用户没有输入数据，return 结束程序
+                  if(this.id === '' && this.name === '') return;
+
+                    this.list.push(dog);
+                    // 清空表单控件中的内容
+                    this.id = this.name = '';
+                    
+                },
+                del(id) {
+                    // 分析
+                    // 1、如何根据id 找到要删除的这一项索引
+                    // 2、找到索引了，直接调用数组的 splice 方法.
+
+                    this.list.some((item , i) =>{
+                        if(item.id === id){
+                            this.list.splice(i, 1);
+                            // 在数组some方法中，如果 return true,就会立即终止这个数组的后续循环
+                            return true;
+                        }
+                    });
+
+                    // findIndex()方法
+                },
+                search(keyworys) { // 根据关键字，进行搜索
+                    // 新建一个新数组
+                    var newList = [];
+                    // 循环 list 数组, 
+                    this.list.forEach(item => {
+                        // 判断是否包含字段
+                        if(item.name.indexOf(keyworys) != -1) {
+                            // 
+                            newList.push(item);
+                        }
+                    });
+                    return newList;
+                },
+            }
+        });
+    
+    </script>
+
+    <!-- 
+        代码分析：我们不能写死 list, 拿到数组中的每一个name ，通过 indexOf方法 判断是否包含 某个字，包含返回其他，不包含返回 -1,
+            最后将 找到的包含的对象 添加到 新对象中
+
+        代码设计: 
+     -->
+</body>
+</html>

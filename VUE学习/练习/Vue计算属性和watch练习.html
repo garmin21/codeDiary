@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<title>Document</title>
+</head>
+
+<body>
+
+
+	<div id="app">
+		<button @click="value+=5">加5</button>
+		<button @click="value-=1">减1</button>
+		<!-- 1、我们需要写一个计算属性 retult 来判断 value 大于52吗 ？ 大于52 ： 没有-->
+		<p>{{ retult }}</p>
+		<p>{{ value }}</p>
+		<!-- 2、用watch监听 retult 如果 retult 变化了，让value 2s 后归零-->
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				value: 0,
+			},
+			watch : {
+			    retult : function(){
+			        var tar = this;
+			        setTimeout(function(){
+			            tar.value = 0;
+			        },2000)
+			   }
+			},
+			// 计算属性字段
+			computed: {
+				retult: function () {
+					return this.value > 52 ? "大于52" : "没有大于";
+				}
+			},
+		});
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+      <ol>
+          <!-- <li v-for="n in evenNumbers">{{ n }}</li> -->
+          <li v-for="n in 10">{{ n }}</li>
+      </ol>
+    </div>
+
+    <script>
+   var vm = new Vue({
+         el : '#app',
+         data : {
+             arr : [1,2,3,4,5],
+         },
+         computed : {
+            evenNumbers : function(){
+                return this.arr.filter(function(number){
+                    return number % 2 === 0;
+                })
+            }
+         }
+     });
+    </script>
+    <!-- 
+        1、重点1、过滤
+        如果在计算属性不适用的情况下你可以使用方法
+     -->
+
+     <!-- 
+        2、v-for使用范围值
+      -->
+</body>
+</html>

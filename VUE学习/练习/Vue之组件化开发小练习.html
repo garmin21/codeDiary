@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+        <!-- 1、定义局部组件，my-input，在其里面有一个input控件，并且可以和data中的数据进行双向数据绑定 -->
+        <my-input></my-input>
+        <br>
+        <!-- 定义全局组件，渲染数据 -->
+        <my-movie></my-movie>
+    </div>
+
+
+    <script>
+    Vue.component('my-movie', {
+        template : "<div><img :src='src'><p>{{ name }}</p></div>",
+        data : function(){
+            return {
+                src : 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=1667994205,255365672&fm=5',
+                name : 'cat'
+            }
+        }
+    })
+     new Vue({
+         el : "#app",
+         components : {
+             'my-input' : {
+                template : '<div><input v-model="value">{{ value }}</div>',
+                data : function(){
+                    return {
+                        value : '',
+                    }
+                }
+             },
+         }
+     });
+    
+    </script>
+    
+</body>
+</html>

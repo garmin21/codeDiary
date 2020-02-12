@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>直接创建</title>
+</head>
+<body>
+    <!-- 
+        render 渲染组件有什么不一样？
+            答：render 渲染组件会 ，全部覆盖掉容器
+     -->
+    <div id="app">
+
+    </div>
+
+
+    <script>
+        new Vue({
+            el : '#app',
+            render : function(creataElement){
+                // []里面代表创建文本节点
+                return creataElement('div',['hi', creataElement('p',['文本节点'])])
+            }
+        });
+    
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <h3>{{ msg | msgplay }}</h3> -->
+
+
+
+        <h3>{{ msg | msgplay('疯狂+1') }}</h3>
+    </div>
+
+
+    <script>
+        // Vue.filter('msgplay', function(msg){
+        //     // replace 第一个参数也可以是 正则 也可以是一个字符串
+        //     return msg.replace(/单纯/g, '邪恶');
+        // });
+
+
+
+// 传参
+        Vue.filter('msgplay', function(msg,arg){
+            // replace 第一个参数也可以是 正则 也可以是一个字符串
+            return msg.replace(/单纯/g, arg);
+        });
+        new Vue({
+            el : '#app',
+            data : {
+                msg : '曾经我也是一个风度翩翩，英俊潇洒，的美男子，单纯的我，问谁是这个世界最单纯的男人'
+            },
+            methods : {
+            }
+        });
+    
+    </script>
+    <!-- 
+        过滤器也允许多次调用
+     -->
+</body>
+</html>

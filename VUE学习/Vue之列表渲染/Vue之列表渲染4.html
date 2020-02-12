@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1、点击列表中的某个 li 改变其原有数据，填充新的数据 -->
+    <div id="app">
+      <ol>
+          <li v-for="(item, index) in arr" @click="chang(index)">{{ item.text }} &nbsp;&nbsp;&nbsp; <span>评分:{{ item.rate }}</span> | {{ index }}</li>
+      </ol>
+      <!-- 需求：点击按钮添加新的电影 -->
+      <button @click="add">点击添加新的电影</button>
+    </div>
+
+    <script>
+     new Vue({
+         el : '#app',
+         data : {
+             arr : [
+                 {text : '我不是药神',rate:7.2},
+                 {text : '侏罗纪公园2',rate:9.2},
+                 {text : '驯龙高手3',rate:3.2}
+             ],
+         },
+         methods : {
+            chang : function(i){
+                let shuzu = this.arr.concat();
+               
+                shuzu[i] = {
+                    text : '鲁滨逊历险记',
+                    rate:9.9,
+                }
+                this.arr = shuzu;
+            },
+            add : function(){
+                this.arr.push({
+                    text : '泰坦尼克号',
+                    rate:7.9,
+                })
+            }
+         }
+     });
+    
+    </script>
+</body>
+</html>

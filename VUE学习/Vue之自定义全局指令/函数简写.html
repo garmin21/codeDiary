@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1 v-color="'pink'" v-fontsize="70">我是世界第一无敌大帅哥</h1>
+    </div>
+
+
+    <script>
+    new Vue({
+        el : '#app',
+        data : {
+        },
+        // 自定义局部组件
+        directives : {
+            color : {
+                bind(el,bing) {
+                    el.style.color = bing.value;
+                }
+            },
+            // 注意这个 函数 等同于 把 代码写到 bind 和 update 中去
+            fontsize : function(el ,bing){
+                el.style.fontSize = parseInt(bing.value) + 'px';
+            },
+        }
+
+    });
+    </script>
+
+    <!-- 
+        当我们只需要使用 bind 和 update 时就可以直接使用 简写形式
+
+
+     -->
+</body>
+</html>

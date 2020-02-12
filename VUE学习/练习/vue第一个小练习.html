@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 1、输出你们的名字和你们的年龄 -->
+        <span>姓名: <b>{{ name }}</b></span><br><span>年龄: <b>{{ age }}</b></span>
+        <!--  2、输出你们的 age*3  -->
+        <p>{{ age * 3 }}</p>
+        <!--  3、<img src="" alt=""> -->
+        <img v-bind:src="url" alt="" srcset="">
+        <!-- 4、默认输出你们的名字 -->
+        <h3>{{ myname() }}</h3>
+    </div>
+</body>
+<script>
+new Vue({
+    el : '#app',
+    data : {
+        name : '李嘉明',
+        age : 18,
+        url : 'http://k.zol-img.com.cn/sjbbs/7692/a7691515_s.jpg',
+    },
+    methods : {
+        myname : function(){
+            return "我的名字叫:" + this.name;
+        }
+    },
+
+
+});
+
+</script>
+</html>

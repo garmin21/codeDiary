@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<!-- 　通过使用保留的 <component> 元素，动态地绑定到它的 is 特性，可以实现动态组件 -->
+        <div id="example">
+            <!-- 点击切换页面 -->
+                <button @click="change">切换页面</button>
+                <!-- 绑定 is 特性,执行一个函数 -->
+                <component :is="currentView"></component>
+        </div>
+    <script>
+      new Vue({
+        el: '#example',
+        data:{
+            index:0,
+            arr:[
+            {template:`<div>我是主页</div>`},
+            {template:`<div>我是提交页</div>`},
+            {template:`<div>我是存档页</div>`}
+            ],
+        },
+        computed:{
+            currentView(){
+                return this.arr[this.index];
+            }
+        },
+        methods:{
+            change(){
+            this.index = (++this.index)%3;
+            }
+        }
+        })
+    </script>
+</body>
+</html>

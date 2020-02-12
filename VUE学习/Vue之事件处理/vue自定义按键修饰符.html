@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 修饰符可以连起来使用 -->
+        
+        <br>
+        <input type="submit" v-on:keyup.v = "input" value="按钮">
+        <!-- 
+            .enter
+            .tab
+            .delete (捕获“删除”和“退格”键)
+            .esc
+            .space
+            .up
+            .down
+            .left
+            .right
+         -->
+    </div>
+
+    <script>
+    // 自定义键名
+    Vue.config.keyCodes = {
+        v : 86,
+    }
+    new Vue({
+        el : '#app',
+        methods : {
+            input : function(e){
+                // alert(e.w)
+                alert('input')
+            }
+        }
+    });
+    
+    </script>
+</body>
+</html>

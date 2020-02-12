@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+            <input type="text" v-focus v-color="'green'">
+    </div>
+
+    <!-- 
+        钩子函数参数
+
+            1、el
+            2、binding : 一个对象，包含以下属性
+                name : 指令名
+                value : 指令绑定值，列如：v-number="1 + 1" ,value的值是 2
+                expression : 绑定值的字符串形式 ，列如： v-number="1 + 1", expression 的值为 "1+1"
+
+
+     -->
+
+    <script>
+        Vue.directive('color', {
+            bind : function(el, binding){
+                // el.style.color = 'red';
+                el.style.color = binding.value;
+            },
+            inserted : function(el){
+                el.focus();
+            },
+        })
+        new Vue({
+            el : '#app',
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p v-if= "items >=20">有库存{{ items }}</p>
+        <p v-else-if = "items <= 5 && items >=1">快买啊，快没货了</p>
+        <p v-else>没有货了</p>
+        <input type="text" v-model="items">
+    </div>
+
+
+    <script>
+     new Vue({
+         el : '#app',
+         data : {
+             items : 20,
+         }
+     });
+    
+    </script>
+</body>
+</html>

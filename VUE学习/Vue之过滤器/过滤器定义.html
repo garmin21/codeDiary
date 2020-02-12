@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+
+   <div id="app">
+       <h1>{{ name | namepend }}</h1>
+   </div>
+     <script>
+        //  定义一个全局过滤器过滤器,所有的vue 实例都可以使用
+     Vue.filter('namepend', function(){
+        return name + '过滤成13';
+     });
+        new Vue({
+            el : '#app',
+            data : {
+                name : '哈哈',
+            }
+        });
+     
+     </script>
+</body>
+</html>

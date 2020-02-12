@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+    <!-- 
+        页面中定义了一个 函数
+     -->
+    <script>
+        function showInfoDome(data){
+            console.log(data)
+        }
+    
+    </script>
+
+<!-- 
+    jsonp 的原理 就是通过 script 允许跨域的特点，拿到不同域名，不同端口...的数据，
+
+        scr ：http://127.0.0.1:3000/getscript?callback=showInfoDome
+        
+        向 端口号为 3000 的拂去器发送 请求 
+        访问 /getscript
+        通过 callback 
+ -->
+<script src="http://127.0.0.1:3000/getscript?callback=showInfoDome"></script>
+</body>
+</html>
