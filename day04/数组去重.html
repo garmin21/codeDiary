@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+
+        数组去重，利用，对象，键值不重复的特点
+        最后，通过 Object.values() 把其转变为数组
+     -->
+
+    <script>
+        let arr = [];
+        for (let i = 1; i < 200; i++) {
+            arr.push(Math.floor(Math.random() * i))
+        }
+        console.log(arr)
+
+        let obj = {};
+
+        for (let i = 0; i < arr.length; i++) {
+            let key = arr[i];
+            obj[key] = key
+        }
+
+        const list = Object.values(obj)
+
+        console.log(list)
+    </script>
+</body>
+
+</html>
