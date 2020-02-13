@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        fieldset {
+            width: 600px;
+            height: 500px;
+            margin: 100px auto;
+        }
+
+        .wrapper {
+            height: 100%;
+        }
+
+        .list {
+            padding: 10px 0;
+        }
+
+        .item {
+            border: 1px dashed pink;
+            padding: 5px 0;
+        }
+
+        .warp {
+            min-height: calc(100% - 100px);
+        }
+
+        input[type=checkbox] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .wrapper {
+            border: 1px solid red;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .info {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        .v-enter-active,
+        .v-leave-active {
+            transition: all 0.6s ease;
+        }
+
+        /* 下面的 .v-move 和 .v-leave-active 配合使用，能够实现列表后续的元素，渐渐地漂上来的效果 */
+        .v-move {
+            transition: all 0.6s ease;
+        }
+
+        .v-leave-active {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- TodoList -->
+    <div id="app">
+        <fieldset>
+            <legend>vue--TodoList</legend>
+            <div class="warpper">
+                <input type="text" v-model="task" placeholder="请输入任务">
+                &nbsp; <button @click="addTask">添加</button>
+                <div class="warp">
+                    <ul class="list">
+                        <transition-group appear>
+                            <li @click.self="remove(item.id)" class="item" v-for="item of person" :key="item.id">
+                                <input @change="change(item.id,item.state)" type="checkbox">任务：{{item.task}}</li>
+                        </transition-group>
+                    </ul>
+                </div>
+                <div class="info">
+                    <p><span>已完成{{todls}}</span><span>总数{{person.length}}</span></p>
+                    <button @click="removeTodls">清空全部已完成</button>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <script>
+        //创建Vue实例,得到 ViewModel
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                task: '',
+                person: [
+                    // 状态 1，表示 未选择， 2，表示选中
+                    {
+                        state: 1,
+                        id: 1,
+                        task: 'xxxxx'
+                    },
+                    {
+                        state: 1,
+                        id: 2,
+                        task: 'jjjjj'
+                    },
+                    {
+                        state: 1,
+                        id: 3,
+                        task: 'kkkkkkkk'
+                    },
+                ],
+                todls: 0,
+            },
+            methods: {
+                addTask() {
+                    this.person.push({
+                        id: ++this.person[this.person.length - 1].id,
+                        task: this.task,
+                        state: 1
+                    })
+                    this.task = ''
+                },
+                remove(id) {
+                    this.person = this.person.filter(task => task.id !== id)
+                },
+                change(id, state) {
+                    state = state === 1 ? 2 : 1
+                    this.person = this.person.map(task => {
+                        if (task.id === id) {
+                            task.state = state
+                        }
+                        return task
+                    })
+                },
+                removeTodls() {
+                    this.person = this.person.filter(task => task.state !== 2)
+                }
+            },
+            watch: {
+                person: function () {
+                    this.todls = this.person.filter(task => task.state !== 1).length
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
