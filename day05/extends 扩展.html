@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+
+
+    </style>
+</head>
+<!-- 
+
+    通过外部增加对象的形式，对构造器进行扩展。它和我们上节课讲的混入非常的类似。
+ -->
+
+<body>
+    <h1>Extends Optin Demo</h1>
+    <hr>
+    <div id="app">
+        {{message}}
+        <p><button @click="add">add</button></p>
+    </div>
+
+    <script type="text/javascript">
+        var bbb = {
+            created: function () {
+                console.log("我是被扩展出来的"); // 首先被执行
+            },
+            methods: {
+                add: function () {
+                    console.log('我是被扩展出来的方法！');
+                }
+            }
+        };
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello Vue!'
+            },
+            methods: {
+                add: function () {
+                    console.log('我是原生方法'); // 原生方法被触发，没有然后了
+                }
+            },
+            extends: bbb
+        })
+    </script>
+</body>
+
+</html>

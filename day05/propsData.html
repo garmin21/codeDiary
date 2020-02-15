@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+</head>
+
+<body>
+    <h1>PropsData Option Demo</h1>
+    <hr>
+    <header></header>
+    <!-- 
+        propsData 不是和属性有关，他用在全局扩展时进行传递数据
+        1. 通过Vue.extend() 创建了一个组件模板对象
+        2. 实例化这个模板对象，传入一个配置对象，key : propsata value: { a : 1}
+        3. 在  组件模板对象上使用 props: ['a'] 定义了一下
+        4. 就可以展示数据 a 了
+
+
+     -->
+    <script type="text/javascript">
+        var header_a = Vue.extend({
+            template: `<p>{{message}}-{{a}}</p>`,
+            data: function () {
+                return {
+                    message: 'Hello,I am Header'
+                }
+            },
+            props: ['a']
+        });
+        new header_a({
+            propsData: {
+                a: 1
+            }
+        }).$mount('header');
+    </script>
+</body>
+
+</html>

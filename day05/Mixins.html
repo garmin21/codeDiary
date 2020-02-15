@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+
+</head>
+
+<!-- 
+
+
+Mixins一般有两种用途：
+
+1. 在你已经写好了构造器后，需要增加方法或者临时的活动时使用的方法，这时用混入会减少源代码的污染。
+2. 很多地方都会用到的公用方法，用混入的方法可以减少代码量，实现代码重用。
+ -->
+<!-- 
+     我们现在有个数字点击递增的程序，假设已经完成了，这时我们希望每次数据变化时都能够在控制台打印出提示：“数据发生变化”.
+-->
+<!-- 
+    当混入方法和构造器的方法重名时，混入的方法无法展现，也就是不起作用。
+-->
+
+<!-- 
+从执行的先后顺序来说，都是混入的先执行，然后构造器里的再执行，需要注意的是，这并不是方法的覆盖，而是被执行了两边。
+-->
+
+<body>
+    <h1>Mixins Option Demo</h1>
+    <hr>
+    <div id="app">
+        <p>num:{{ num }}</p>
+        <P><button @click="add">增加数量</button></P>
+    </div>
+
+    <script type="text/javascript" name="mixin 局部混入">
+        //额外临时加入时，用于显示日志
+        // 局部混入
+        var addLog = { // 构造器
+            updated: function () {
+                console.log("数据放生变化,变化成" + this.num + ".");
+            }
+        }
+        var app = new Vue({
+            el: '#app',
+            data: {
+                num: 1
+            },
+            methods: {
+                add: function () {
+                    this.num++;
+                }
+            },
+            mixins: [addLog] // 局部混入
+        })
+    </script>
+    <script type="text/javascript" name="mixin 全局混入">
+        // 全局混入
+        Vue.mixin({
+            updated: function () {
+                console.log('我是全局被混入的', this.num);
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                num: 1
+            },
+            methods: {
+                add: function () {
+                    this.num++;
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
