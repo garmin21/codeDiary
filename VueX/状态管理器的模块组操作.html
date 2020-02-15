@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        随着项目的复杂性增加，我们共享的状态越来越多，这时候我们就需要把我们状态的各种操作进行一个分组，分组后再进行按组编写。
+     -->
+    ** 声明模块组： **
+
+    在vuex/store.js中声明模块组，我们还是用我们的const常量的方法声明模块组。代码如下：
+    <script>
+        const moduleA = {
+            state,
+            mutations,
+            getters,
+            actions
+        }
+    </script>
+
+
+    声明好后，我们需要修改原来 Vuex.Stroe里的值：
+
+    <script>
+        export default new Vuex.Store({
+            modules: {
+                a: moduleA
+            }
+        })
+    </script>
+
+    ** 在模板中使用 ** 现在我们要在模板中使用count状态，要用插值的形式写入。
+
+    <h3>{{$store.state.a.count}}</h3>
+
+
+    如果想用简单的方法引入，还是要在我们的计算属性中rutrun我们的状态。写法如下：
+
+    <script>
+        computed: {
+            // count() {
+            //     return this.$store.state.a.count;
+            // }
+        }
+    </script>
+</body>
+
+</html>

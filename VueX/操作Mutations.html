@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        $store.commit(方法名) 
+     -->
+    <button @click="$store.commit('add')">+</button>
+    <button @click="$store.commit('reduce')">-</button>
+    <!-- 
+        mutations 中 方法的第二个参数
+     -->
+    <script>
+        const mutations = {
+            add(state, n) {
+                state.count += n;
+            },
+            reduce(state) {
+                state.count--;
+            }
+        }
+    </script>
+    <!-- 
+        在Count.vue里修改按钮的commit( )方法传递的参数，我们传递10，意思就是每次加10.
+     -->
+    <p>
+        <button @click="$store.commit('add',10)">+</button>
+        <button @click="$store.commit('reduce')">-</button>
+    </p>
+
+    <!-- 
+        代替 $store.commit(方法名) 的其他写法 : mapMutations
+     -->
+    <script>
+        import {
+            mapMutations
+        } from 'vuex';
+        // 在模板的<script>标签里添加methods属性，并加入mapMutations
+        methods: mapMutations([
+            'add', 'reduce'
+        ])
+        // 通过上边两部，我们已经可以在模板中直接使用我们的reduce或者add方法了，就像下面这样。
+        // <button @click="reduce">-</button>
+    </script>
+
+    
+</body>
+
+</html>

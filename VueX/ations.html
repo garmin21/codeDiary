@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        actions和之前讲的Mutations功能基本一样，不同点是，actions是异步的改变state状态，而Mutations是同步改变状态。
+
+        在store.js中声明actions actions是可以调用Mutations里的方法的
+     -->
+
+    <script>
+        const actions = {
+            addAction(context) {
+                context.commit('add', 10)
+            },
+            reduceAction({
+                commit
+            }) {
+                commit('reduce')
+            }
+        }
+    </script>
+    <!-- 
+        在actions里写了两个方法addAction和reduceAction，在方法体里，我们都用commit调用了Mutations里边的方法。
+        细心的小伙伴会发现这两个方法传递的参数也不一样。
+
+        context：上下文对象，这里你可以理解称store本身。
+        {commit}：直接把commit对象传递过来，可以让方法体逻辑和代码更清晰明了。
+
+      模板中的使用: 改成我们的actions里的方法名
+     -->
+    <p>
+        <button @click="addAction">+</button>
+        <button @click="reduceAction">-</button>
+    </p>
+    <!-- 
+        改造一下我们的methods方法，首先还是用扩展运算符把mapMutations和mapActions加入
+     -->
+    <script>
+        import {
+            mapActions
+        } from 'vuex';
+        methods: {
+            // ...mapMutations([
+            //     'add', 'reduce'
+            // ]),
+            // ...mapActions(['addAction', 'reduceAction'])
+        }
+    </script>
+
+</body>
+
+</html>

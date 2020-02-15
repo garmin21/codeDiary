@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+        一、通过computed的计算属性直接赋值**
+        computed属性可以在输出前，对data中的值进行改变，我们就利用这种特性把store.js中的state值赋值给我们模板中的data值。
+     -->
+    <script>
+        computed: {
+            // count() {
+            //     return this.$store.state.count;
+            // }
+        }
+    </script>
+    <!-- 
+        二、通过mapState的对象来赋值
+     -->
+    <script>
+        import {
+            mapState
+        } from 'vuex';
+
+        computed: mapState({
+            count: state => state.count
+        })
+    </script>
+    <!-- 
+        三、通过mapState的数组来赋值 
+     -->
+    <script>
+        computed: mapState(["count"])
+    </script>
+    <!-- 这个算是最简单的写法了，在实际项目开发当中也经常这样使用。 -->
+</body>
+
+</html>
