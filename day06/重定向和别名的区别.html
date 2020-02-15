@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+
+
+        ** redirect和alias的区别 **
+
+        1. redirect：仔细观察URL，redirect是直接改变了url的值，把url变成了真实的path路径。
+        2. alias：URL路径没有别改变，这种情况更友好，让用户知道自己访问的路径，只是改变了<router-view>中的内容。
+
+
+
+            ** 填个小坑： ** 别名请不要用在path为’/’中，如下代码的别名是不起作用的。
+
+            {
+            path: '/',
+            component: Hello,
+            alias:'/home'
+            }
+    </p>
+</body>
+
+</html>

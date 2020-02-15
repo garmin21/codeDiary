@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../vuejs/vue-router-3.0.1.js"></script>
+    <title>Document</title>
+</head>
+<!-- 
+    参数传递
+    1. 用name传递参数 
+ -->
+
+<body>
+    
+    <script name="1. 用name传递参数">
+        // <p>{{ $route.name}}</p> 这个不是写在这
+        routes: [{
+            path: '/',
+            name: 'Hello',
+            component: Hello
+        }]
+    </script>
+    <script name="通过<router-link> 标签中的to传参">
+        // <router-link :to="{name:xxx,params:{key:value}}">valueString</router-link>
+
+        {{$route.params.username}} // 最后在模板里用$route.params.username进行接收.
+    </script>
+   
+</body>
+
+</html>

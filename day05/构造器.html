@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+
+</head>
+<!-- 
+
+    Vue.extend 返回的是一个“扩展实例构造器”,
+    也就是预设了部分选项的Vue实例构造器。
+    经常服务于Vue.component用来生成组件，
+    可以简单理解为当在模板中遇到该组件名称作为标签的自定义元素时，
+    会自动调用“扩展实例构造器”来生产组件实例，并挂载到自定义元素上。
+ -->
+<body>
+
+    <!-- 
+        我们想象一个需求，需求是这样的，要在博客页面多处显示作者的网名，
+        并在网名上直接有链接地址。我们希望在html中只需要写<author></author>，
+        这和自定义组件很像，但是他没有传递任何参数，只是个静态标签。
+     -->
+    <h1>vue.extend-扩展实例构造器</h1>
+    <hr>
+    <author></author>
+
+    <script type="text/javascript">
+    // 直接返回了一个组件模板实例
+       var authorExtend = Vue.extend({
+           template:"<p><a :href='authorUrl'>{{authorName}}</a></p>",
+           data:function(){
+               return{
+                   authorName:'JSPang',
+                   authorUrl:'http://www.jspang.com'
+               }
+           }
+       });
+        new authorExtend().$mount('author');// 挂载到 对应的 html 元素上
+
+    //   还可以通过HTML标签上的id或者class来生成扩展实例构造器，Vue.extend里的代码是一样的，
+    // 只是在挂载的时候，我们用类似jquery的选择器的方法，来进行挂载就可以了
+        new authorExtend().$mount('#author');
+    </script>
+</body>
+
+</html>
