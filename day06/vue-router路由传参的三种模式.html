@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../vuejs/vue-router-3.0.1.js"></script>
+    <title>Document</title>
+</head>
+
+<!-- 
+    路由的跳转
+        <router-link to="/login/1" >登入</router-link>
+ -->
+
+<body>
+    <!-- 
+        布尔模式：
+            如果 props 被设置为 true，route.params 将会被设置为组件属性。
+     -->
+    <script>
+        {
+            path: "/login/:id",
+            component: Login,
+            name: "login",
+            props: true
+        }
+        
+    </script>
+
+        props : ['id'],
+
+    // login 界面
+    <h1>{{id}}</h1> 拿到数据
+</body>
+
+<body>
+    <!-- 
+        对象模式：
+            如果 props 是一个对象，它会被按原样设置为组件属性。当 props 是静态的时候有用。
+     -->
+    <script>
+        {
+            path: "/login",
+            component: Login,
+            name: "login",
+            props: { newsletterPopup: false }
+        }
+    </script>
+        props : ['newsletterPopup'],
+    // login 界面
+    <h1>{{newsletterPopup}}</h1> 拿到数据
+</body>
+
+
+<body>
+    <!-- 
+        函数模式：
+            你可以创建一个函数返回 props。这样你便可以将参数转换成另一种类型，将静态值与基于路由的值结合等等。
+     -->
+    <script>
+        {
+            path: "/login/:id",
+            component: Login,
+            name: "login",
+            props: (route) => ({ id: route.params.id })
+        }
+    </script>
+        props : ['id'],
+    // login 界面
+    <h1>{{id}}</h1> 拿到数据
+</body>
+
+</html>

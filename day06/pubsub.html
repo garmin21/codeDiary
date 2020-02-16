@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./自定义Pubsub.js"></script>
+
+    <!-- <script type="text/javascript">
+    // PubSub
+        // 订阅消息
+        var token1 = PubSub.subscribe('add',(data)=>{
+          console.log('add消息',data)
+        });
+        var token2 = PubSub.subscribe('add',(data)=>{
+          console.log('add消息2',data)
+        });
+        var token3 = PubSub.subscribe('del',(data)=>{
+          console.log('del消息',data)
+        })
+    
+        // 取消订阅
+        // PubSub.unsubscribe()
+    
+    
+        // 发布消息
+        PubSub.publish('add',123)
+        PubSub.publishSync('add',123)
+        PubSub.publishSync('del',456)
+      </script> -->
+
+<script type="text/javascript">
+    // PubSub
+        // 订阅消息
+        var token1 = PubSub.subscribe('add',(data)=>{
+          console.log('add消息',data)
+        });
+        var token2 = PubSub.subscribe('add',(data)=>{
+          console.log('add消息2',data)
+        });
+        var token3 = PubSub.subscribe('del',(data)=>{
+          console.log('del消息',data)
+        })
+    
+        // 取消订阅
+        // PubSub.unsubscribe()
+    
+    
+        // 发布消息
+        PubSub.publish('add',123)
+        PubSub.publishSync('add',123)
+        PubSub.publishSync('del',456)
+      </script>
+</body>
+</html>
